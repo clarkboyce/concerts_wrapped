@@ -41,7 +41,43 @@ function ConcertStatsTest() {
 
   const renderSlide = () => {
     const SlideComponent = slides[currentSlide];
-    return <SlideComponent />;
+    
+    switch (currentSlide) {
+      case 0:
+        return <SlideComponent 
+          totalMinutes={420}      // Replace with actual data
+          totalConcerts={12}      // Replace with actual data
+          topPercentage={5}       // Replace with actual data
+        />;
+      
+      case 1:
+        return <SlideComponent 
+          totalSpent={350}        // Replace with actual data
+        />;
+      
+      case 2:
+        return <SlideComponent 
+          topGenre="Rock"         // Replace with actual data
+          genreFanCount={10000}   // Replace with actual data
+        />;
+      
+      case 3:
+        return <SlideComponent 
+          springConcerts={3}    // Replace with actual data
+          summerConcerts={5}    // Replace with actual data
+          fallConcerts={4}      // Replace with actual data
+          winterConcerts={2}    // Replace with actual data
+        />;
+
+        case 4: 
+        return <SlideComponent 
+          venueName="Madison Square Garden"
+          cityName="New York City"
+          totalVenueCount={5}
+        />;
+      default:
+        return <SlideComponent />;
+    }
   };
 
   return (
@@ -62,7 +98,7 @@ function ConcertStatsTest() {
                         className="absolute inset-0 bg-white rounded-full origin-left"
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
-                        transition={{ duration: 8, ease: "linear" }}
+                        transition={{ duration: 10, ease: "linear" }}
                         onAnimationComplete={handleNext}
                       />
                     )}

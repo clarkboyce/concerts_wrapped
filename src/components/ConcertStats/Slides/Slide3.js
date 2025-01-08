@@ -1,14 +1,23 @@
 import { motion } from 'framer-motion';
 
-function Slide3() {
+function Slide3({ topGenre = "Rock" , genreFanCount = 1000}) {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="relative w-full h-full flex flex-col items-center justify-center mt-6">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-white text-3xl"
+        transition={{ duration: 0.6 }}
+        className="text-white text-3xl text-center mb-10"
       >
-        3
+        You really love going to {topGenre} concerts!
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 2 }}
+        className="text-gray-400 text-lg text-center"
+      >
+        {genreFanCount} other fans feel the same way.
       </motion.div>
     </div>
   );

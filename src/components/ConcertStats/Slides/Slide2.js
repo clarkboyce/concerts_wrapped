@@ -32,17 +32,17 @@ function Slide2({ totalSpent = 300 }) {
     // Show second part after 2.5 seconds
     const secondPartTimer = setTimeout(() => {
       setShowSecondPart(true);
-    }, 2500);
+    }, 2000);
 
-    // Show comparison after 5 seconds
+    // Show comparison after 6 seconds
     const comparisonTimer = setTimeout(() => {
       setShowComparison(true);
-    }, 5000);
+    }, 4500);
 
     // Add timer for final part
     const finalPartTimer = setTimeout(() => {
       setShowFinalPart(true);
-    }, 7000);
+    }, 7500);
 
     return () => {
       clearTimeout(flashTimer);

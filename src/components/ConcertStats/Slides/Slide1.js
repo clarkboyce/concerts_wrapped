@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 
-function Slide1() {
+function Slide1({ 
+  totalMinutes = 0, 
+  totalConcerts = 0,
+  topPercentage = 0 
+}) {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center px-6 -mt-6">
       {/* Main stat */}
@@ -14,10 +18,10 @@ function Slide1() {
           You spent
         </div>
         <div className="text-3xl font-bold">
-          XXX minutes at
+          {totalMinutes} minutes at
         </div>
         <div className="text-3xl font-bold">
-          XXX concerts
+          {totalConcerts} concerts
         </div>
       </motion.div>
 
@@ -26,10 +30,10 @@ function Slide1() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 2 }}
-        className="text-gray-400 text-center text-lg"
+        className="text-gray-400 text-lg text-center"
       >
         That puts you in the<br />
-        top XXX% of users *
+        top {topPercentage}% of users *
       </motion.div>
     </div>
   );

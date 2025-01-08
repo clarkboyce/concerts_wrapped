@@ -1,17 +1,49 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 function Slide6() {
+  const [showFirst, setShowFirst] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowFirst(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-white text-3xl"
-      >
-        6
-      </motion.div>
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <AnimatePresence mode="wait">
+        {showFirst ? (
+          <motion.div
+            key="first"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-white text-3xl font-bold text-center w-[95%]"
+          >
+            Plan on making more music memories?
+          </motion.div>
+        ) : (
+          <motion.div
+            key="second"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-center"
+          >
+            <div className="text-white text-2xl font-bold">
+              Get your concert tickets for 2025 with 0 fees on
+            </div>
+            <div className="text-yellow text-4xl font-bold">CampusTicket</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-export default Slide6; 
+export default Slide6;
