@@ -1,7 +1,7 @@
 {
   "name": "concerts_wrapped",
   "version": "0.1.0",
-  "homepage": "/concerts_wrapped",
+  "homepage": "https://clarkboyce.github.io/concerts_wrapped",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
