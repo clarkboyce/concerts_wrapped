@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import CountingNumber from '../Animations/CountingNumber';
+import transferTicketIcon from '../styles/transfer-ticket-icon.png';
 
 function Slide2({ totalSpent = 300 }) {
   const [isFlashing, setIsFlashing] = useState(true);
@@ -24,25 +26,22 @@ function Slide2({ totalSpent = 300 }) {
   const comparison = calculateComparison();
 
   useEffect(() => {
-    // Stop flashing after 2 seconds
     const flashTimer = setTimeout(() => {
       setIsFlashing(false);
     }, 2000);
 
-    // Show second part after 2.5 seconds
     const secondPartTimer = setTimeout(() => {
       setShowSecondPart(true);
     }, 2000);
 
-    // Show comparison after 6 seconds
     const comparisonTimer = setTimeout(() => {
       setShowComparison(true);
     }, 4500);
 
-    // Add timer for final part
     const finalPartTimer = setTimeout(() => {
+      setShowSecondPart(false);
       setShowFinalPart(true);
-    }, 7500);
+    }, 4500 + (comparison.count * 100) + 2000);
 
     return () => {
       clearTimeout(flashTimer);
@@ -50,107 +49,164 @@ function Slide2({ totalSpent = 300 }) {
       clearTimeout(comparisonTimer);
       clearTimeout(finalPartTimer);
     };
-  }, []);
+  }, [comparison.count]);
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* First part - Major bag alert */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ 
-          opacity: showSecondPart ? 0 : 1, 
-          scale: 1,
-          color: isFlashing ? ['#FFFFFF', '#FF0000', '#FFFFFF', '#FF0000'] : '#FFFFFF'
-        }}
-        transition={{ 
-          duration: isFlashing ? 0.5 : 0.6,
-          repeat: isFlashing ? Infinity : 0,
-          repeatType: "reverse"
-        }}
-        className="text-center absolute"
-      >
-        <div className="text-5xl font-bold">
-          Major
-        </div>
-        <div className="text-5xl font-bold">
-          bag
-        </div>
-        <div className="text-5xl font-bold">
-          alert!!!
-        </div>
-      </motion.div>
+      {!showFinalPart && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ 
+            opacity: showSecondPart ? 0 : 1, 
+            scale: 1,
+            color: isFlashing ? ['#FFFFFF', '#FF0000', '#FFFFFF', '#FF0000'] : '#FFFFFF'
+          }}
+          transition={{ 
+            duration: isFlashing ? 0.5 : 0.6,
+            repeat: isFlashing ? Infinity : 0,
+            repeatType: "reverse"
+          }}
+          className="text-center absolute"
+        >
+          <div className="text-6xl font-bold">
+            Major
+          </div>
+          <div className="text-6xl font-bold">
+            bag
+          </div>
+          <div className="text-6xl font-bold">
+            alert!!!
+          </div>
+        </motion.div>
+      )}
 
       {/* Second part - Spending text and comparison */}
       {showSecondPart && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-white text-center"
+          initial={{ opacity: 0, y: 70 }}
+          animate={{ opacity: 1, y: 20 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.8 }}
+          className="text-white text-center mb-24 px-8 w-full"
         >
-          <div className="text-3xl font-bold mb-12">
-            You spent ${totalSpent}<br/>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: 1,
+            }}
+            transition={{ 
+              opacity: { duration: 0.6 },
+              marginBottom: { duration: 0.8, delay: 1.5 }
+            }}
+            className="text-4xl font-bold"
+          >
+            You spent <span className="text-cyan-400">${totalSpent}</span><br/>
             on tickets this year
-          </div>
+          </motion.div>
 
-          {showComparison && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ 
+              opacity: 1,
+              height: "auto"
+            }}
+            transition={{ 
+              delay: 1.5,
+              duration: 0.6 
+            }}
+            className="space-y-4 w-[90%] mx-auto mt-8"
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-4"
+              transition={{ delay: 2 }}
+              className="text-gray-300 text-xl w-[90%]"
             >
-              <div className="text-gray-400 text-xl">
-                That's enough to buy:
-              </div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, staggerChildren: 0.1 }}
-                className="text-2xl mb-2"
-              >
-                {Array.from({ length: comparison.count }).map((_, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    {comparison.emoji}
-                  </motion.span>
-                ))}
-              </motion.div>
-              <div className="text-xl">
-                {comparison.text}
-              </div>
+              That's enough to buy:
             </motion.div>
-          )}
-
-          {showFinalPart && (
+            <div className="text-2xl w-[90%] mb-2">
+              {Array.from({ length: comparison.count }).map((_, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.2 + (i * 0.1) }}
+                >
+                  {comparison.emoji}
+                </motion.span>
+              ))}
+            </div>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.2 + (0.1 * comparison.count) }}
+              className="text-2xl w-[90%]"
+            >
+              {comparison.text}
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Final part */}
+      {showFinalPart && (
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-white text-center px-8 w-[85%] mx-auto"
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-3xl font-bold mb-20"
+          >
+            I bet 20% of that<br/>was on fees<br/> 😭😭😭
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="text-gray-300 text-xl font-semibold"
+          >
+            Skip the fees and save $<CountingNumber value={totalSpent * 0.2} delay={1.5}/> <br/>by buying with CampusTicket.
+            {/* New App Tile */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2 }}
+              className="flex justify-center mt-6 mb-4"
             >
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-white text-center text-3xl font-bold mb-4"
+                animate={{ 
+                  y: [0, -4, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                whileHover={{ scale: 1.05 }}
+                className="p-[0px] rounded-lg relative z-50"
               >
-                I bet 20% of it was from fees 😭😭😭
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-gray-400 text-center text-xl"
-              >
-                Skip the fees and buy with<br />
-                CampusTicket next time.
+                <a 
+                  href="https://campus-ticket.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <div className="bg-black rounded-lg p-1">
+                    <img 
+                      src={transferTicketIcon}
+                      alt="Transfer Ticket"
+                      className="w-16 h-16"
+                    />
+                  </div>
+                </a>
               </motion.div>
             </motion.div>
-          )}
+          </motion.div>
         </motion.div>
       )}
     </div>

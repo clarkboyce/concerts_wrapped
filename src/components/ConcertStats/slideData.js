@@ -1,3 +1,5 @@
+import { gradients } from './styles/gradients';
+
 export const slides = [
   {
     id: 0,
@@ -11,8 +13,7 @@ export const slides = [
         duration: 4000
       }
     ],
-    gradient: "from-black",
-    titleColor: "text-blue-500"
+    ...gradients.bluePurple
   },
   {
     id: 1,
@@ -23,8 +24,7 @@ export const slides = [
         duration: 10000
       }
     ],
-    gradient: "from-pink-900/50",
-    titleColor: "text-pink-400"
+    ...gradients.pinkPurple
   },
   {
     id: 2,
@@ -43,8 +43,7 @@ export const slides = [
         duration: 4000
       }
     ],
-    gradient: "from-green-900/50",
-    titleColor: "text-green-400"
+    ...gradients.greenYellow
   },
   {
     id: 4,
@@ -59,8 +58,7 @@ export const slides = [
         duration: 4000
       }
     ],
-    gradient: "from-blue-900/50",
-    titleColor: "text-blue-400"
+    ...gradients.lightBlue
   },
   {
     id: 5,
@@ -70,8 +68,7 @@ export const slides = [
         duration: 10000
       }
     ],
-    gradient: "from-indigo-900/50",
-    titleColor: "text-indigo-400"
+    ...gradients.orangeYellow
   },
   {
     id: 6,
@@ -81,7 +78,6 @@ export const slides = [
         duration: 10000
       }
     ],
-    gradient: "from-violet-900/50",
-    titleColor: "text-violet-400"
+    ...gradients.redPink
   }
 ]; 

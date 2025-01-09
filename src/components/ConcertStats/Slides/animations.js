@@ -10,4 +10,6 @@ export const scaleIn = {
   exit: { opacity: 0, scale: 1.2 }
 };
 
+
+
 // Add more reusable animations as needed 

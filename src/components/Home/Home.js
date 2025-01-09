@@ -9,7 +9,7 @@ const Home = () => {
     <div className="min-h-screen w-full flex justify-center bg-[#0f0f0f]">
       <div className="w-[80%] relative flex flex-col">
         {/* Social Icons */}
-        <div className="absolute top-6 right-6 flex gap-4">
+        <div className="absolute top-6 right-6 md:right-2 flex gap-4">
           <a 
             href="admin@campus-ticket.com" 
             className="text-gray-400 hover:text-white transition-colors"

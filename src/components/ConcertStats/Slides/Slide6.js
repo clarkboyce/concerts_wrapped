@@ -22,7 +22,7 @@ function Slide6() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-white text-3xl font-bold text-center w-[95%]"
+            className="text-white text-3xl font-bold text-center w-[85%]"
           >
             Plan on making more music memories?
           </motion.div>
@@ -38,7 +38,7 @@ function Slide6() {
             <div className="text-white text-2xl font-bold">
               Get your concert tickets for 2025 with 0 fees on
             </div>
-            <div className="text-yellow text-4xl font-bold">CampusTicket</div>
+            <div className="text-4xl font-bold">CampusTicket</div>
           </motion.div>
         )}
       </AnimatePresence>

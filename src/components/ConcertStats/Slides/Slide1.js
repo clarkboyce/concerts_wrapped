@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import CountingNumber from '../Animations/CountingNumber';
+import { gradients } from '../styles/gradients';
 
 function Slide1({ 
   totalMinutes = 0, 
@@ -11,17 +13,19 @@ function Slide1({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="text-white text-center mb-12"
+        transition={{ duration: 2 }}
+        className="text-white text-center mb-1"
       >
-        <div className="text-3xl font-bold mb-1">
-          You spent
-        </div>
-        <div className="text-3xl font-bold">
-          {totalMinutes} minutes at
-        </div>
-        <div className="text-3xl font-bold">
-          {totalConcerts} concerts
+        <div className="font-bold">
+          <div className="text-4xl flex items-center justify-center gap-3 mb-3">
+            You spent
+          </div>
+          <div className="text-5xl text-sky-400 flex items-center justify-center gap-3 mb-3">
+          <CountingNumber value={totalMinutes} /> minutes
+          </div>
+          <div className="text-4xl flex items-center justify-center gap-3 mb-3">
+            at <CountingNumber value={totalConcerts} /> concerts
+          </div>
         </div>
       </motion.div>
 
@@ -29,11 +33,14 @@ function Slide1({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 2 }}
-        className="text-gray-400 text-lg text-center"
+        transition={{ duration: 1.2, delay: 2 }}
+        className="text-gray-200 text-2xl text-center"
       >
         That puts you in the<br />
-        top {topPercentage}% of users *
+        top <CountingNumber 
+          value={topPercentage} 
+          formatFn={(val) => val.toFixed(1)}
+        />% of users *
       </motion.div>
     </div>
   );
