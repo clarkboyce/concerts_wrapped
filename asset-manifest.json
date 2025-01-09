@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/concerts_wrapped/static/css/main.a155ae7d.css",
-    "main.js": "/concerts_wrapped/static/js/main.2e0230e1.js",
+    "main.css": "/concerts_wrapped/static/css/main.05ad4912.css",
+    "main.js": "/concerts_wrapped/static/js/main.c8bd9257.js",
     "static/js/136.2c465db9.chunk.js": "/concerts_wrapped/static/js/136.2c465db9.chunk.js",
     "index.html": "/concerts_wrapped/index.html",
-    "main.a155ae7d.css.map": "/concerts_wrapped/static/css/main.a155ae7d.css.map",
-    "main.2e0230e1.js.map": "/concerts_wrapped/static/js/main.2e0230e1.js.map",
+    "main.05ad4912.css.map": "/concerts_wrapped/static/css/main.05ad4912.css.map",
+    "main.c8bd9257.js.map": "/concerts_wrapped/static/js/main.c8bd9257.js.map",
     "136.2c465db9.chunk.js.map": "/concerts_wrapped/static/js/136.2c465db9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a155ae7d.css",
-    "static/js/main.2e0230e1.js"
+    "static/css/main.05ad4912.css",
+    "static/js/main.c8bd9257.js"
   ]
 }
