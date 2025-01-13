@@ -6,7 +6,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen w-full flex justify-center bg-[#0f0f0f]">
+    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] overflow-hidden">
       <div className="w-[80%] relative flex flex-col">
         {/* Social Icons */}
         <div className="absolute top-6 right-6 md:right-2 flex gap-4">
@@ -76,7 +76,7 @@ const Home = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              onClick={() => navigate('/test')}
+              onClick={() => navigate('/ticket-overview')}
             >
               Get Your Wrapped in 2 Minutes
             </motion.button>

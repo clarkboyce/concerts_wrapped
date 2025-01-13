@@ -98,8 +98,8 @@ function ConcertStatsTest() {
   };
 
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-gray-900 p-0 md:p-4">
-      <div className="relative w-full h-screen md:w-[360px] md:h-[640px] bg-black md:rounded-xl">
+    <div className="h-[100dvh] w-full flex items-center justify-center bg-gray-900 p-0 md:p-4 overflow-hidden">
+      <div className="relative w-full h-[100dvh] md:w-[360px] md:h-[640px] bg-black md:rounded-xl">
         <div className="absolute inset-0 md:rounded-xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-black to-black" />
 
