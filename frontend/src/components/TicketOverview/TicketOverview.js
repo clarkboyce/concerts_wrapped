@@ -1,0 +1,170 @@
+import React, { useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import Ticket from "./Ticket";
+import { Scrollbars } from "react-custom-scrollbars-2";
+import test_data from "../Services/test_data_user.json";
+import DataEnrichmentService from "../Services/DataEnrichmentService";
+
+const TicketOverview = () => {
+  const navigate = useNavigate();
+  const [tickets, setTickets] = useState([
+    { artist: "", date: "", city: "", price: "" },
+  ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleAddTicket = () => {
+    if (tickets.length < 20) {
+      setTickets([...tickets, { artist: "", date: "", city: "", price: "" }]);
+    }
+  };
+
+  const handleDeleteTicket = (index) => {
+    if (tickets.length > 1) {
+      const newTickets = tickets.filter((_, i) => i !== index);
+      setTickets(newTickets);
+    }
+  };
+
+  const handleTicketChange = (index, field, value) => {
+    const newTickets = [...tickets];
+    newTickets[index] = { ...newTickets[index], [field]: value };
+    setTickets(newTickets);
+  };
+
+  const isAnyTicketFilled = useMemo(() => {
+    return tickets.some(
+      (ticket) =>
+        ticket.artist.trim() !== "" &&
+        ticket.date !== "" &&
+        ticket.city.trim() !== "" &&
+        ticket.price !== ""
+    );
+  }, [tickets]);
+
+  const handleSubmit = async () => {
+    if (!isAnyTicketFilled) return;
+
+    const filledTickets = tickets.filter(
+      (ticket) =>
+        ticket.artist.trim() !== "" &&
+        ticket.date !== "" &&
+        ticket.city.trim() !== "" &&
+        ticket.price !== ""
+    );
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const enrichedData = await DataEnrichmentService.processTickets(filledTickets);
+      // Store the enriched data in localStorage for access in other components
+      localStorage.setItem("enrichedConcertData", JSON.stringify(enrichedData.processed_concerts));
+      navigate("/debug");
+    } catch (err) {
+      setError('Failed to process tickets. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleTestMode = async () => {
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const enrichedData = await DataEnrichmentService.processTickets(test_data);
+      localStorage.setItem("enrichedConcertData", JSON.stringify(enrichedData.processed_concerts));
+      navigate("/debug");
+    } catch (err) {
+      setError('Failed to process test data. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex justify-center bg-[#0f0f0f] py-10">
+      <div className="w-[90%] max-w-2xl flex flex-col items-center justify-between gap-2">
+        <motion.h1
+          className="text-2xl md:text-3xl font-semibold text-center text-white"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Give us a quick ticket overview!
+        </motion.h1>
+
+        <Scrollbars
+          style={{ width: "100%", height: "65vh" }}
+          renderThumbVertical={({ style, ...props }) => (
+            <div
+              {...props}
+              style={{
+                ...style,
+                backgroundColor: "#ffffff40",
+                borderRadius: "4px",
+                width: "4px",
+              }}
+            />
+          )}
+        >
+          <div className="w-full flex flex-col items-center gap-6 pt-5 pb-5 px-4">
+            {tickets.map((ticket, index) => (
+              <Ticket
+                key={index}
+                index={index}
+                ticket={ticket}
+                onDelete={handleDeleteTicket}
+                onChange={handleTicketChange}
+              />
+            ))}
+
+            {tickets.length < 20 && (
+              <motion.button
+                onClick={handleAddTicket}
+                className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Add new ticket +
+              </motion.button>
+            )}
+          </div>
+        </Scrollbars>
+
+        {error && (
+          <div className="text-red-500 mb-4">
+            {error}
+          </div>
+        )}
+
+        <motion.button
+          onClick={handleSubmit}
+          className={`px-24 py-4 rounded-[20px] font-medium transition-colors ${
+            isAnyTicketFilled
+              ? "bg-[#73737330] text-white hover:bg-[#73737350]"
+              : "bg-[#73737315] text-gray-500 cursor-not-allowed"
+          }`}
+          whileHover={isAnyTicketFilled ? { scale: 1.05 } : {}}
+          whileTap={isAnyTicketFilled ? { scale: 0.95 } : {}}
+          disabled={!isAnyTicketFilled || isSubmitting}
+        >
+          {isSubmitting ? 'Processing...' : 'Generate Wrapped'}
+        </motion.button>
+
+        <motion.button
+          onClick={handleTestMode}
+          className="mt-4 px-6 py-2 rounded-[20px] font-medium bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Use Test Data
+        </motion.button>
+      </div>
+    </div>
+  );
+};
+
+export default TicketOverview;

@@ -1,0 +1,74 @@
+[
+  {
+    "artist": "Taylor Swift",
+    "venue": "Allegiant Stadium",
+    "city": "Las Vegas",
+    "state": "NV",
+    "date": "2025-03-02",
+    "genres": ["Pop", "Country"],
+    "num songs played": 25,
+    "price": 250.0,
+    "avg price": 275.0,
+    "venue capacity": 65000
+  },
+  {
+    "artist": "Drake",
+    "venue": "Madison Square Garden",
+    "city": "New York",
+    "state": "NY",
+    "date": "2025-04-15",
+    "genres": ["Hip Hop", "Rap"],
+    "num songs played": 20,
+    "price": 300.0,
+    "avg price": 320.0,
+    "venue capacity": 20000
+  },
+  {
+    "artist": "Coldplay",
+    "venue": "Rose Bowl",
+    "city": "Pasadena",
+    "state": "CA",
+    "date": "2025-05-22",
+    "genres": ["Alternative Rock"],
+    "num songs played": 18,
+    "price": 200.0,
+    "avg price": 210.0,
+    "venue capacity": 88000
+  },
+  {
+    "artist": "Billie Eilish",
+    "venue": "Crypto.com Arena",
+    "city": "Los Angeles",
+    "state": "CA",
+    "date": "2025-06-05",
+    "genres": ["Pop", "Electropop"],
+    "num songs played": 22,
+    "price": 180.0,
+    "avg price": 190.0,
+    "venue capacity": 20000
+  },
+  {
+    "artist": "Beyoncé",
+    "venue": "NRG Stadium",
+    "city": "Houston",
+    "state": "TX",
+    "date": "2025-07-10",
+    "genres": ["R&B", "Pop"],
+    "num songs played": 24,
+    "price": 350.0,
+    "avg price": 375.0,
+    "venue capacity": 72000
+  },
+  {
+    "artist": "Ed Sheeran",
+    "venue": "Red Rocks Amphitheatre",
+    "city": "Morrison",
+    "state": "CO",
+    "date": "2025-08-15",
+    "genres": ["Pop", "Folk"],
+    "num songs played": 21,
+    "price": 150.0,
+    "avg price": 160.0,
+    "venue capacity": 9525
+  }
+]
