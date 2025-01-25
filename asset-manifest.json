@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/concerts_wrapped/static/css/main.02b384b5.css",
+    "main.css": "/concerts_wrapped/static/css/main.e12b0dcf.css",
     "main.js": "/concerts_wrapped/static/js/main.889f7ba7.js",
     "static/js/99.c934fe80.chunk.js": "/concerts_wrapped/static/js/99.c934fe80.chunk.js",
     "static/media/transfer-ticket-icon.png": "/concerts_wrapped/static/media/transfer-ticket-icon.06d073dc97b6284728e1.png",
     "index.html": "/concerts_wrapped/index.html",
-    "main.02b384b5.css.map": "/concerts_wrapped/static/css/main.02b384b5.css.map",
+    "main.e12b0dcf.css.map": "/concerts_wrapped/static/css/main.e12b0dcf.css.map",
     "main.889f7ba7.js.map": "/concerts_wrapped/static/js/main.889f7ba7.js.map",
     "99.c934fe80.chunk.js.map": "/concerts_wrapped/static/js/99.c934fe80.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.02b384b5.css",
+    "static/css/main.e12b0dcf.css",
     "static/js/main.889f7ba7.js"
   ]
 }
