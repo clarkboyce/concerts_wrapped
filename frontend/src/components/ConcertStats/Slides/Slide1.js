@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import CountingNumber from '../Animations/CountingNumber';
-import { gradients } from '../styles/gradients';
 
 function Slide1({ 
   totalMinutes = 0, 

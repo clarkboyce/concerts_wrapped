@@ -9,22 +9,22 @@ class ConcertDataServices {
   };
 
   // Main data processing function
-  static processConcertData(enrichedConcerts) {
-    if (!enrichedConcerts || !Array.isArray(enrichedConcerts)) {
-      console.error('Invalid concerts data:', enrichedConcerts);
+  static processConcertData(concerts) {
+    if (!concerts || !Array.isArray(concerts)) {
+      console.error('Invalid concerts data:', concerts);
       throw new Error('Concerts data must be an array');
     }
 
     // Calculate all required data
-    const totalMinutes = this.calculateTotalMinutes(enrichedConcerts);
-    const totalConcerts = enrichedConcerts.length;
-    const totalSpent = this.calculateTotalSpent(enrichedConcerts);
-    const { maxAvgPrice, actualPrice } = this.findMostExpensiveTicketInfo(enrichedConcerts);
-    const artistGenres = this.mapArtistsToGenres(enrichedConcerts);
-    const genreCounts = this.calculateGenreCounts(enrichedConcerts);
-    const seasonalData = this.calculateSeasonalDistribution(enrichedConcerts);
-    const venues = this.getUniqueVenues(enrichedConcerts);
-    const mostVisitedVenueInfo = this.findMostVisitedVenueInfo(enrichedConcerts);
+    const totalMinutes = this.calculateTotalMinutes(concerts);
+    const totalConcerts = concerts.length;
+    const totalSpent = this.calculateTotalSpent(concerts);
+    const { maxAvgPrice, actualPrice } = this.findMostExpensiveTicketInfo(concerts);
+    const artistGenres = this.mapArtistsToGenres(concerts);
+    const genreCounts = this.calculateGenreCounts(concerts);
+    const seasonalData = this.calculateSeasonalDistribution(concerts);
+    const venueCapacities = this.getUniqueVenues(concerts);
+    const mostVisitedVenueInfo = this.findMostVisitedVenueInfo(concerts);
 
     return {
       totalMinutes,
@@ -37,7 +37,9 @@ class ConcertDataServices {
       artistGenres,
       genreCounts,
       seasonalData,
-      uniqueVenueCount: venues.length,
+      venues: Object.keys(venueCapacities),
+      venueCapacities,
+      uniqueVenueCount: Object.keys(venueCapacities).length,
       topVenue: mostVisitedVenueInfo.venueName,
       topVenueCapacity: mostVisitedVenueInfo.capacity,
       topVenueCity: mostVisitedVenueInfo.city,
@@ -48,7 +50,7 @@ class ConcertDataServices {
   // Helper functions
   static calculateTotalMinutes(concerts) {
     return concerts.reduce((total, concert) => {
-      const numSongs = concert.performance?.num_songs || 15; // Updated to match server output
+      const numSongs = concert['num songs played'] || 15;
       return total + (numSongs * this.SONG_LENGTH_MINUTES);
     }, 0);
   }
@@ -82,13 +84,13 @@ class ConcertDataServices {
 
   static findMostVisitedVenueInfo(concerts) {
     const venueVisits = concerts.reduce((acc, concert) => {
-      const venueName = concert.venue.name;
+      const venueName = concert.venue;
       if (!acc[venueName]) {
         acc[venueName] = {
           count: 0,
-          capacity: concert.venue.capacity,
-          city: concert.venue.city,
-          state: concert.venue.state,
+          capacity: concert['venue capacity'],
+          city: concert.city,
+          state: concert.state,
           name: venueName
         };
       }
@@ -124,7 +126,7 @@ class ConcertDataServices {
 
   static calculateUniqueVenues(concerts) {
     // Count unique venues (would need venue standardization)
-    const uniqueVenues = new Set(concerts.map(concert => concert.venue.name));
+    const uniqueVenues = new Set(concerts.map(concert => concert.venue));
     return uniqueVenues.size;
   }
 
@@ -158,8 +160,8 @@ class ConcertDataServices {
     const cityCounts = {};
 
     concerts.forEach(concert => {
-      const venueName = concert.venue.name;
-      const cityName = concert.venue.city;
+      const venueName = concert.venue;
+      const cityName = concert.city;
       
       venueCounts[venueName] = (venueCounts[venueName] || 0) + 1;
       cityCounts[cityName] = (cityCounts[cityName] || 0) + 1;
@@ -195,7 +197,7 @@ class ConcertDataServices {
   static calculateTotalFanCount(concerts) {
     // Estimate based on venue capacities or use actual attendance if available
     return concerts.reduce((total, concert) => 
-      total + (concert.venue.capacity || 1000), 0);
+      total + (concert['venue capacity'] || 1000), 0);
   }
 
   static findMostExpensiveEvent(concerts) {
@@ -204,37 +206,39 @@ class ConcertDataServices {
 
   static mapArtistsToGenres(concerts) {
     return concerts.reduce((map, concert) => {
-      map[concert.artist.name] = concert.artist.genres;
+      map[concert.artist] = concert.genres;
       return map;
     }, {});
   }
 
   static calculateGenreCounts(concerts) {
     return concerts.reduce((counts, concert) => {
-      concert.artist.genres.forEach(genre => {
-        counts[genre] = (counts[genre] || 0) + 1;
-      });
+      if (Array.isArray(concert.genres)) {
+        concert.genres.forEach(genre => {
+          counts[genre] = (counts[genre] || 0) + 1;
+        });
+      }
       return counts;
     }, {});
   }
 
   static getUniqueVenues(concerts) {
-    return [...new Set(concerts.map(concert => ({
-      name: concert.venue.name,
-      city: concert.venue.city,
-      state: concert.venue.state,
-      capacity: concert.venue.capacity
-    })))];
+    const venues = [...new Set(concerts.map(concert => concert.venue))];
+    return venues.reduce((acc, venueName) => {
+      const venueInfo = concerts.find(concert => concert.venue === venueName);
+      acc[venueName] = venueInfo['venue capacity'];
+      return acc;
+    }, {});
   }
 
   static findMostExpensiveTicketInfo(concerts) {
     const sortedByPrice = [...concerts].sort((a, b) => {
-      return (b.average_ticket_price || 0) - (a.average_ticket_price || 0);
+      return (b['avg price'] || 0) - (a['avg price'] || 0);
     });
     const mostExpensiveEvent = sortedByPrice[0] || {};
     
     return {
-      maxAvgPrice: mostExpensiveEvent.average_ticket_price || 0,
+      maxAvgPrice: mostExpensiveEvent['avg price'] || 0,
       actualPrice: mostExpensiveEvent.price || 0
     };
   }

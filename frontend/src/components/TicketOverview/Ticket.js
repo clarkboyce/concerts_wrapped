@@ -42,13 +42,23 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
                 onChange={(e) => onChange(index, 'date', e.target.value)}
                 min="2024-01-01"
                 max="2024-12-31"
-                className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none appearance-none w-full"
+                className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none appearance-none w-full [&:not(:valid)]:text-transparent"
                 style={{
                   colorScheme: 'dark',
                   WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  width: '100%',
+                  height: '42px',
+                  lineHeight: '1.5',
+                  padding: '8px',
                 }}
                 required
               />
+              {!ticket.date && (
+                <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+                  Date
+                </span>
+              )}
             </div>
           </div>
 

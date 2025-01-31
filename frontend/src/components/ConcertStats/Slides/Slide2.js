@@ -169,10 +169,10 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="text-gray-300 text-xl font-semibold"
+            className="text-gray-200 text-2xl font-semibold"
           >
             Skip the fees and save $
-            <CountingNumber value={totalSpent * 0.2} delay={1.5} /> <br />
+            <CountingNumber className="text-cyan-400" value={totalSpent * 0.2} delay={1.5} /> <br />
             by buying with CampusTicket.
             {/* New App Tile */}
             <motion.div
@@ -191,7 +191,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
                   ease: "easeInOut",
                 }}
                 whileHover={{ scale: 1.05 }}
-                className="p-[0px] rounded-lg relative z-50"
+                className="p-[0px] rounded-2xl relative z-50"
               >
                 <a
                   href="https://campus-ticket.com"
@@ -199,7 +199,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
                   rel="noopener noreferrer"
                   className="block"
                 >
-                  <div className="bg-black rounded-lg p-1">
+                  <div className="bg-black rounded-2xl p-1">
                     <img
                       src={transferTicketIcon}
                       alt="Transfer Ticket"

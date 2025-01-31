@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import FooterSpacer from '../common/FooterSpacer';
+import { getStats } from '../../utils/statsManager';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [stats, setStats] = useState(getStats());
 
   return (
-    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] overflow-hidden">
+    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] fixed">
       <div className="w-[80%] relative flex flex-col">
         {/* Social Icons */}
         <div className="absolute top-6 right-6 md:right-2 flex gap-4">
@@ -70,7 +73,7 @@ const Home = () => {
             </motion.p>
 
             <motion.button
-              className="bg-white text-[#0f0f0f] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
+              className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0 }}
@@ -87,9 +90,10 @@ const Home = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <p>0 Wrapped stories generated</p>
+              <p>{stats.storiesGenerated.toLocaleString()} Wrapped stories generated</p>
             </motion.div>
           </motion.div>
+          <FooterSpacer />
         </div>
       </div>
     </div>

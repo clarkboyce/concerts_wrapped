@@ -3,8 +3,11 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Ticket from "./Ticket";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import FooterSpacer from "../common/FooterSpacer";
 import test_data from "../Services/test_data_user.json";
+import test_data_full from "../Services/test_data_full.json";
 import DataEnrichmentService from "../Services/DataEnrichmentService";
+import ConcertDataServices from "../Services/ConcertDataServices";
 
 const TicketOverview = () => {
   const navigate = useNavigate();
@@ -74,18 +77,39 @@ const TicketOverview = () => {
     setError(null);
 
     try {
-      const enrichedData = await DataEnrichmentService.processTickets(test_data);
-      localStorage.setItem("enrichedConcertData", JSON.stringify(enrichedData.processed_concerts));
+      // Check if test data is valid
+      if (!test_data_full || !Array.isArray(test_data_full)) {
+        throw new Error('Test data is invalid or not in the correct format');
+      }
+
+      console.log('Test data:', test_data_full); // Debug log
+
+      // Process the test data directly through ConcertDataServices
+      const processedStats = ConcertDataServices.processConcertData(test_data_full);
+      
+      // Verify processed stats before storing
+      if (!processedStats) {
+        throw new Error('Failed to process concert stats');
+      }
+
+      console.log('Processed stats:', processedStats); // Debug log
+      
+      // Store the processed stats
+      localStorage.setItem("enrichedConcertData", JSON.stringify(test_data_full));
+      localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
+      
+      // Navigate to debug view
       navigate("/debug");
     } catch (err) {
-      setError('Failed to process test data. Please try again.');
+      console.error('Test mode error:', err);
+      setError(`Failed to process test data: ${err.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex justify-center bg-[#0f0f0f] py-10">
+    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] py-5 fixed">
       <div className="w-[90%] max-w-2xl flex flex-col items-center justify-between gap-2">
         <motion.h1
           className="text-2xl md:text-3xl font-semibold text-center text-white"
@@ -156,12 +180,13 @@ const TicketOverview = () => {
 
         <motion.button
           onClick={handleTestMode}
-          className="mt-4 px-6 py-2 rounded-[20px] font-medium bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+          className="px-6 py-2 rounded-[20px] font-medium bg-purple-600 text-white hover:bg-purple-700 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           Use Test Data
         </motion.button>
+        <FooterSpacer />
       </div>
     </div>
   );

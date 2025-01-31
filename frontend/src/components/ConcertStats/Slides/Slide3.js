@@ -17,11 +17,17 @@ function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
   // Create a reverse mapping of genres to artists using useMemo
   const genreToArtists = useMemo(() => {
     const mapping = {};
-    Object.entries(artistGenres).forEach(([artist, genre]) => {
-      if (!mapping[genre]) {
-        mapping[genre] = [];
-      }
-      mapping[genre].push(artist);
+    Object.entries(artistGenres).forEach(([artist, genres]) => {
+      // Handle both string and array cases
+      const genreArray = Array.isArray(genres) ? genres : [genres];
+      
+      // Add artist to each of their genres
+      genreArray.forEach(genre => {
+        if (!mapping[genre]) {
+          mapping[genre] = [];
+        }
+        mapping[genre].push(artist);
+      });
     });
     return mapping;
   }, [artistGenres]);
@@ -86,7 +92,8 @@ function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
             transition={{ duration: 0.6, delay: 0.8 }}
             className="text-white text-lg text-center mt-2"
           >
-            {topGenreArtists.join(', ')}
+            {topGenreArtists.slice(0, 3).join(', ')}
+            {topGenreArtists.length > 3 && ' and more...'}
           </motion.div>
 
           <motion.div
@@ -95,7 +102,7 @@ function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
             transition={{ duration: 0.6, delay: 2 }}
             className="text-gray-400 text-sm text-center mt-4"
           >
-            **if you got a weird one,<br/>blame Spotify, we used<br/>their genre list 😂😂
+            **if you got a weird genre,<br/>blame Spotify, we used<br/>their list 😂😂
           </motion.div>
         </motion.div>
       )}

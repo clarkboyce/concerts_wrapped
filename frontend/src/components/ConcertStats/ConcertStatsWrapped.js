@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import FooterSpacer from '../common/FooterSpacer';
 import Slide1 from './Slides/Slide1';
 import Slide2 from './Slides/Slide2';
 import Slide3 from './Slides/Slide3';
@@ -7,7 +8,9 @@ import Slide4 from './Slides/Slide4';
 import Slide5 from './Slides/Slide5';
 import Slide6 from './Slides/Slide6';
 import Slide7 from './Slides/Slide7';
+import Slide8 from './Slides/Slide8';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { incrementStoriesGenerated } from '../../utils/statsManager';
 
 function ConcertStatsWrapped() {
   const location = useLocation();
@@ -15,7 +18,7 @@ function ConcertStatsWrapped() {
   const navigate = useNavigate();
   const [hasStarted, setHasStarted] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const TOTAL_SLIDES = 7;
+  const TOTAL_SLIDES = 8;
 
   // Add safety check
   if (!concertData) {
@@ -29,12 +32,13 @@ function ConcertStatsWrapped() {
   // Define durations for each slide (in seconds)
   const slideDurations = [
     8,  // Slide 1
-    17,  // Slide 2 - longer for the animations
-    8,  // Slide 3
-    10,  // Slide 4
-    10,  // Slide 5
-    12,  // Slide 6
-    6   // Slide 7
+    18,  // Slide 2 - longer for the animations
+    12,  // Slide 3
+    12,  // Slide 4
+    14,  // Slide 5
+    14,  // Slide 6
+    10,  // Slide 7
+    6   // Slide 8
   ];
 
   const slides = [
@@ -44,10 +48,12 @@ function ConcertStatsWrapped() {
     Slide4,
     Slide5,
     Slide6,
-    Slide7
+    Slide7,
+    Slide8
   ];
 
   const handleStart = () => {
+    incrementStoriesGenerated();
     setHasStarted(true);
   };
 
@@ -101,6 +107,7 @@ function ConcertStatsWrapped() {
 
       case 4: 
         return <SlideComponent 
+          venueCapacities={concertData.venueCapacities}
           topVenue={concertData.topVenue}
           topVenueCity={concertData.topVenueCity}
           topVenueState={concertData.topVenueState}
@@ -109,6 +116,11 @@ function ConcertStatsWrapped() {
         />;
 
       case 6:
+        return <SlideComponent 
+          artists={concertData.artists}
+        />;
+
+      case 7:
         const topSeason = Object.entries(concertData.seasonalData)
           .sort(([,a], [,b]) => b - a)[0][0];
           
@@ -127,7 +139,7 @@ function ConcertStatsWrapped() {
   };
 
   return (
-    <div className="h-[100dvh] w-full flex items-center justify-center bg-gray-900 p-0 md:p-4 overflow-hidden">
+    <div className="h-[100dvh] w-full flex items-center justify-center bg-gray-900 p-0 md:p-4 fixed">
       <div className="relative w-full h-[100dvh] md:w-[360px] md:h-[640px] bg-black md:rounded-xl">
         <div className="absolute inset-0 md:rounded-xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-black to-black" />
@@ -255,6 +267,7 @@ function ConcertStatsWrapped() {
             <div className="absolute bottom-6 left-0 right-0 text-center">
               <p className="text-sm text-white/50">concertswrapped.com</p>
             </div>
+            <FooterSpacer />
           </div>
         </div>
       </div>
