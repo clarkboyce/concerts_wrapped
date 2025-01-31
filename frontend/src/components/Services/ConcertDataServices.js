@@ -25,6 +25,7 @@ class ConcertDataServices {
     const seasonalData = this.calculateSeasonalDistribution(concerts);
     const venueCapacities = this.getUniqueVenues(concerts);
     const mostVisitedVenueInfo = this.findMostVisitedVenueInfo(concerts);
+    const artistCounts = this.calculateArtistCounts(concerts);
 
     return {
       totalMinutes,
@@ -43,7 +44,9 @@ class ConcertDataServices {
       topVenue: mostVisitedVenueInfo.venueName,
       topVenueCapacity: mostVisitedVenueInfo.capacity,
       topVenueCity: mostVisitedVenueInfo.city,
-      topVenueState: mostVisitedVenueInfo.state
+      topVenueState: mostVisitedVenueInfo.state,
+      artistCounts,
+      topArtist: this.calculateTopArtistData(concerts)
     };
   }
 
@@ -175,17 +178,23 @@ class ConcertDataServices {
       uniqueVenues: Object.keys(venueCounts).length
     };
   }
-
   static calculateTopArtistData(concerts) {
     const artistCounts = {};
     concerts.forEach(concert => {
-      artistCounts[concert.artist.name] = (artistCounts[concert.artist.name] || 0) + 1;
+      artistCounts[concert.artist] = (artistCounts[concert.artist] || 0) + 1;
     });
 
-    const [name, count] = Object.entries(artistCounts)
-      .sort(([,a], [,b]) => b - a)[0];
+    // Find the highest count
+    const maxCount = Math.max(...Object.values(artistCounts));
+    
+    // Get all artists with that count
+    const topArtists = Object.entries(artistCounts)
+      .filter(([_, count]) => count === maxCount);
 
-    return { name, count };
+    // Pick a random artist from those with the highest count
+    const [artistName] = topArtists[Math.floor(Math.random() * topArtists.length)];
+
+    return artistName;
   }
 
   static determineTopSeason(seasonalData) {
@@ -241,6 +250,13 @@ class ConcertDataServices {
       maxAvgPrice: mostExpensiveEvent['avg price'] || 0,
       actualPrice: mostExpensiveEvent.price || 0
     };
+  }
+
+  static calculateArtistCounts(concerts) {
+    return concerts.reduce((counts, concert) => {
+      counts[concert.artist] = (counts[concert.artist] || 0) + 1;
+      return counts;
+    }, {});
   }
 }
 

@@ -36,7 +36,7 @@ function ConcertStatsWrapped() {
     12,  // Slide 3
     12,  // Slide 4
     14,  // Slide 5
-    14,  // Slide 6
+    8,  // Slide 6
     10,  // Slide 7
     6   // Slide 8
   ];
@@ -115,9 +115,9 @@ function ConcertStatsWrapped() {
           totalVenueCount={concertData.uniqueVenueCount}
         />;
 
-      case 6:
+      case 5:
         return <SlideComponent 
-          artists={concertData.artists}
+          artists={concertData.artistCounts}
         />;
 
       case 7:
@@ -131,6 +131,7 @@ function ConcertStatsWrapped() {
             .sort(([,a], [,b]) => b - a)[0][0]}
           topSeason={topSeason.charAt(0).toUpperCase() + topSeason.slice(1)}
           topVenue={concertData.topVenue}
+          topArtist={concertData.topArtist}
         />;
 
       default:

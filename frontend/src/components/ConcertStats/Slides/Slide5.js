@@ -48,7 +48,7 @@ function Slide5({
         transition={{ duration: 0.6 }}
         className="text-center"
       >
-        <div className="text-3xl font-bold mb-2 text-white">
+        <div className="text-4xl font-bold mb-2 text-white">
           You joined{" "}
           <span className="bg-gradient-to-r from-blue-300 to-blue-500 text-transparent bg-clip-text">
             {Object.values(venueCapacities)
@@ -57,8 +57,8 @@ function Slide5({
           </span>{" "}<br/>
           other fans
         </div>
-        <div className="text-white text-4xl font-bold">@</div>
-        <div className="text-white text-3xl font-bold">
+        <div className="text-white text-3xl font-bold">@</div>
+        <div className="text-white text-4xl font-bold">
           {totalVenueCount} venues this year.
         </div>
       </motion.div>

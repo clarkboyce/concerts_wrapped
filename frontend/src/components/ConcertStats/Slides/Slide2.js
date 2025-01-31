@@ -19,8 +19,8 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
       const count = Math.floor(totalSpent / 12);
       return { emoji: "🌯", count, text: `${count} Chipotle burritos!` };
     } else {
-      const count = (totalSpent / 40).toFixed(1);
-      return { emoji: "🐰", count, text: `${count} pet rabbits!` };
+      const count = (totalSpent / 250).toFixed(1);
+      return { emoji: "🪙", count, text: `${count} bitcoins in 2015!` };
     }
   };
 
@@ -98,7 +98,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
             }}
             className="text-4xl font-bold"
           >
-            You spent <span className="text-cyan-400">${totalSpent}</span>
+            You spent <span className="bg-gradient-to-r from-green-400 to-green-600 text-transparent bg-clip-text">${totalSpent}</span>
             <br />
             on tickets this year
           </motion.div>
@@ -172,7 +172,11 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
             className="text-gray-200 text-2xl font-semibold"
           >
             Skip the fees and save $
-            <CountingNumber className="text-cyan-400" value={totalSpent * 0.2} delay={1.5} /> <br />
+            <CountingNumber 
+              className="text-cyan-400" 
+              value={totalSpent * 0.2} 
+              delay={1.5} 
+            /> <br />
             by buying with CampusTicket.
             {/* New App Tile */}
             <motion.div
@@ -191,7 +195,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
                   ease: "easeInOut",
                 }}
                 whileHover={{ scale: 1.05 }}
-                className="p-[0px] rounded-2xl relative z-50"
+                className="p-[0px] relative z-50 bg-black"
               >
                 <a
                   href="https://campus-ticket.com"
@@ -199,11 +203,11 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
                   rel="noopener noreferrer"
                   className="block"
                 >
-                  <div className="bg-black rounded-2xl p-1">
+                  <div className="p-1">
                     <img
                       src={transferTicketIcon}
                       alt="Transfer Ticket"
-                      className="w-16 h-16"
+                      className="w-16 h-16 rounded-2xl"
                     />
                   </div>
                 </a>

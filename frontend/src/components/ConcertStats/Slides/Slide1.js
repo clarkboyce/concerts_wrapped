@@ -1,12 +1,28 @@
 import { motion } from 'framer-motion';
 import CountingNumber from '../Animations/CountingNumber';
 
+function calculateTopPercentage(minutes) {
+  // If no concert time, return 100%
+  if (minutes <= 0) return 100;
+  
+  // If they've attended any concert at all, start at 80% and decay from there
+  // Using exponential decay: p = (a * e^(-bx)) + 20
+  const a = 80;  // Scale factor 
+  const b = 0.0045;  // Decay rate
+  
+  const percentage = (a * Math.exp(-b * minutes));
+  
+  // Round to 1 decimal place
+  return Math.max(0.1, Math.round(percentage * 10) / 10);
+}
+
 function Slide1({ 
   totalMinutes = 0, 
   totalConcerts = 0,
-  topPercentage = 0,
   tiers = {}
 }) {
+  const topPercentage = calculateTopPercentage(totalMinutes);
+  
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center px-6 -mt-6">
       {/* Main stat */}

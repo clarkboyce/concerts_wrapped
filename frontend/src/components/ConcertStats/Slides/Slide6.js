@@ -1,147 +1,116 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import limeTicket from '../styles/Lime_Small_Ticket.png';
-import greenTicket from '../styles/Green_Small_Ticket.png';
-import bluePurpleTicket from '../styles/Blue-Purple_Small_Ticket.png';
-import blueTicket from '../styles/Blue_Small_Ticket.png';
-import redYellowTicket from '../styles/Red_Yellow_Small_Ticket.png';
-import purplePinkTicket from '../styles/Purple-Pink_Small_Ticket.png';
-import redTicket from '../styles/Red_Small_Ticket.png';
-import yellowTicket from '../styles/Yellow_Small_Ticket.png';
 
-function Slide6() {
-  const [stage, setStage] = useState(1);
+function Slide6({ artists = {} }) {
+  const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
-    const timer1 = setTimeout(() => {
-      setStage(2);
-    }, 2500);
+    const timer = setTimeout(() => {
+      setShowMessage(false);
+    }, 3000); // Show message for 3 seconds
 
-    const timer2 = setTimeout(() => {
-      setStage(3);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
-  const generateDots = (count) => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      size: Math.random() * 2 + 2, // 2-4px
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      isGrey: Math.random() > 0.5
-    }));
-  };
-
-  const [dots] = useState(() => generateDots(30));
-
-  const tickets = [
-    { img: purplePinkTicket, x: -250, y: -300, angle: -30 },  // Top left
-    { img: greenTicket, x: 250, y: -300, angle: 30 },         // Top right
-    { img: redTicket, x: -300, y: 0, angle: -15 },           // Middle left
-    { img: blueTicket, x: 300, y: 0, angle: 15 },            // Middle right
-    { img: bluePurpleTicket, x: -250, y: 300, angle: 30 },   // Bottom left
-    { img: limeTicket, x: 250, y: 300, angle: -30 },         // Bottom right
-    { img: redYellowTicket, x: -200, y: 200, angle: 15 },    // Lower left
-    { img: greenTicket, x: 200, y: 200, angle: -15 },        // Lower right
+  // Array of colors to cycle through
+  const colors = [
+    "text-red-500",
+    "text-blue-500",
+    "text-green-500",
+    "text-purple-500",
+    "text-yellow-500",
+    "text-pink-500",
+    "text-cyan-500",
+    "text-orange-500"
   ];
 
+  // Convert artists object to array of [name, count] pairs and sort by count descending
+  const sortedArtists = Object.entries(artists)
+    .sort(([, countA], [, countB]) => countB - countA);
+  
+  // Get the maximum count to calculate relative sizes
+  const maxCount = sortedArtists.length > 0 ? sortedArtists[0][1] : 1;
+
+  // Find most popular artist(s)
+  const mostPopularArtists = sortedArtists.filter(([_, count]) => count === maxCount);
+  let popularArtistMessage;
+  
+  // Get random color for artist name highlighting
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  
+  if (sortedArtists.length < 4) {
+    const artistNames = mostPopularArtists
+      .map(([artist]) => `<span class="${randomColor}">${artist}</span>`)
+      .join(', ');
+    popularArtistMessage = `You saw ${artistNames} ${mostPopularArtists.length > 1 ? 'each ' : ''}${maxCount} time${maxCount > 1 ? 's' : ''}! ${sortedArtists.length} artist${sortedArtists.length === 1 ? '' : 's'} is a great start. Let's get some more exposure next year!`;
+  } else if (mostPopularArtists.length === sortedArtists.length) {
+    popularArtistMessage = ` You had a lot of variety in your lineup this year!`;
+  } else {
+    const artistNames = mostPopularArtists
+      .map(([artist]) => `<span class="${randomColor}">${artist}</span>`)
+      .join(', ');
+    popularArtistMessage = `Your most played artist${mostPopularArtists.length > 1 ? 's were' : ' was'} ${artistNames} with ${maxCount} concert${maxCount > 1 ? 's' : ''}!`;
+  }
+
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <AnimatePresence mode="wait">
-        {stage === 1 ? (
-          <motion.div
-            key="first"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-white text-3xl font-medium text-center w-[85%]"
-          >
-            Plan on making more music memories?
-          </motion.div>
-        ) : stage === 2 ? (
-          <motion.div
-            key="second"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-white text-3xl font-medium text-center w-[85%]"
-          >
-            Get your concert<br/>tickets for 2025<br/>with no fees!
-          </motion.div>
-        ) : (
-          <motion.div
-            key="third"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center relative w-full h-full flex items-center justify-center"
-          >
-            <motion.img
-              src={yellowTicket}
-              alt="ticket"
-              className="absolute h-8 object-contain z-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-            />
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-8">
+      {showMessage ? (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center"
+        >
+          <div 
+            className="text-white font-bold text-3xl"
+            dangerouslySetInnerHTML={{ __html: popularArtistMessage }}
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2 }}
+          className="text-center"
+        >
+          <div className="text-white font-bold text-center">
+            {sortedArtists.map(([artist, count], index) => {
+              // Calculate relative size (1-2.5x base size)
+              // If all artists appear once, use fixed 2x scale, otherwise calculate relative scale
+              const allArtistsAppearOnce = sortedArtists.every(([_, count]) => count === 1);
+              const scale = allArtistsAppearOnce ? 2 : 1 + (count / maxCount) * 1.5;
+              const fontSize = `${scale}rem`;
+              
+              // Get color from array, cycling through if we have more artists than colors
+              const colorClass = colors[index % colors.length];
 
-            <div className="text-white text-2xl font-bold z-10">
-              Visit CampusTicket for<br/>deals in SF, LA, and DFW
-            </div>
-            
-            {tickets.map((ticket, index) => (
-              <motion.img
-                key={index}
-                src={ticket.img}
-                alt="ticket"
-                className="absolute h-8 object-contain"
-                initial={{
-                  opacity: 0,
-                  x: ticket.x,
-                  y: ticket.y,
-                  rotate: ticket.angle
-                }}
-                animate={{ 
-                  opacity: 0.8,
-                  x: 0,
-                  y: 0,
-                  rotate: ticket.angle
-                }}
-                transition={{
-                  duration: 2,
-                  delay: 0.3 + (index * 0.1),
-                  type: "spring",
-                  damping: 12
-                }}
-              />
-            ))}
-
-            {dots.map((dot) => (
-              <motion.div
-                key={dot.id}
-                className={`absolute rounded-full ${dot.isGrey ? 'bg-gray-300' : 'bg-white'}`}
-                style={{
-                  width: dot.size,
-                  height: dot.size,
-                  left: dot.left,
-                  top: dot.top,
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.6 }}
-                transition={{ duration: 0.4, delay: Math.random() * 0.3 }}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              return (
+                <motion.span
+                  key={artist}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  style={{ display: 'inline-block' }}
+                >
+                  <span 
+                    className={`${colorClass}`}
+                    style={{ fontSize, whiteSpace: 'nowrap' }}
+                  >
+                    {artist}
+                  </span>
+                  {index < sortedArtists.length - 1 && (
+                    <span 
+                      className="text-gray-500 mx-2" 
+                      style={{ fontSize }}
+                    >•</span>
+                  )}
+                </motion.span>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

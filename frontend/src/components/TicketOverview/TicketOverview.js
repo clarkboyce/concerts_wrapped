@@ -18,7 +18,7 @@ const TicketOverview = () => {
   const [error, setError] = useState(null);
 
   const handleAddTicket = () => {
-    if (tickets.length < 20) {
+    if (tickets.length < 30) {
       setTickets([...tickets, { artist: "", date: "", city: "", price: "" }]);
     }
   };
