@@ -20,9 +20,10 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
       return { emoji: "🌯", count, text: `${count} Chipotle burritos!` };
     } else {
       const count = (totalSpent / 250).toFixed(1);
-      return { emoji: "🪙", count, text: `${count} bitcoins in 2015!` };
+      return { emoji: "💰", count, text: `${count} bitcoins in 2015!` };
     }
   };
+
 
   const comparison = calculateComparison();
 
