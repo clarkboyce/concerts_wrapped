@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/concerts_wrapped/static/css/main.eb3727b9.css",
-    "main.js": "/concerts_wrapped/static/js/main.eabf8545.js",
+    "main.js": "/concerts_wrapped/static/js/main.d2b3b005.js",
     "static/js/99.c934fe80.chunk.js": "/concerts_wrapped/static/js/99.c934fe80.chunk.js",
     "static/media/Heterotopia.mp3": "/concerts_wrapped/static/media/Heterotopia.7b6c03e343924055989b.mp3",
     "static/media/transfer-ticket-icon.png": "/concerts_wrapped/static/media/transfer-ticket-icon.06d073dc97b6284728e1.png",
     "index.html": "/concerts_wrapped/index.html",
     "main.eb3727b9.css.map": "/concerts_wrapped/static/css/main.eb3727b9.css.map",
-    "main.eabf8545.js.map": "/concerts_wrapped/static/js/main.eabf8545.js.map",
+    "main.d2b3b005.js.map": "/concerts_wrapped/static/js/main.d2b3b005.js.map",
     "99.c934fe80.chunk.js.map": "/concerts_wrapped/static/js/99.c934fe80.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.eb3727b9.css",
-    "static/js/main.eabf8545.js"
+    "static/js/main.d2b3b005.js"
   ]
 }
