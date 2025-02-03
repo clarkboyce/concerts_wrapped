@@ -37,10 +37,11 @@ function Slide1({
             You spent
           </div>
           <div className="text-5xl text-sky-400 flex items-center justify-center gap-3 mb-3">
-          <CountingNumber value={totalMinutes} /> minutes
+          <CountingNumber value={totalMinutes} duration={2} from={Math.round(totalMinutes * 0.8)} /> minutes
           </div>
           <div className="text-4xl flex items-center justify-center gap-3 mb-3">
-            at <CountingNumber value={totalConcerts} /> concerts
+            at <CountingNumber value={totalConcerts} duration={2} /> concerts
+
           </div>
         </div>
       </motion.div>
@@ -55,7 +56,6 @@ function Slide1({
         That puts you in the<br />
         top <span><CountingNumber
           value={topPercentage}
-          duration={1.4}
           formatFn={(val) => val.toFixed(1)
           }
         /></span>% of users *

@@ -79,9 +79,9 @@ function Slide4({ seasonalData = {} }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="relative flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-transparent"
+              className="relative flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-transparent px-8"
             >
-              <div className="text-center text-white">
+              <div className="text-center text-white translate-x-2 translate-y-4">
                 <div className="text-4xl mb-2">🌷</div>
                 <div className="text-2xl font-bold">{seasonalData.spring}</div>
                 <div className="text-lg">concerts</div>
@@ -93,9 +93,9 @@ function Slide4({ seasonalData = {} }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative flex items-center justify-center bg-gradient-to-bl from-yellow-500/20 to-transparent"
+              className="relative flex items-center justify-center bg-gradient-to-bl from-yellow-500/20 to-transparent px-8"
             >
-              <div className="text-center text-white">
+              <div className="text-center text-white -translate-x-2 translate-y-4">
                 <div className="text-4xl mb-2">☀️</div>
                 <div className="text-2xl font-bold">{seasonalData.summer}</div>
                 <div className="text-lg">concerts</div>
@@ -107,9 +107,9 @@ function Slide4({ seasonalData = {} }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="relative flex items-center justify-center bg-gradient-to-tr from-orange-500/20 to-transparent"
+              className="relative flex items-center justify-center bg-gradient-to-tr from-orange-500/20 to-transparent px-8"
             >
-              <div className="text-center text-white">
+              <div className="text-center text-white translate-x-2 -translate-y-4">
                 <div className="text-4xl mb-2">🍂</div>
                 <div className="text-2xl font-bold">{seasonalData.fall}</div>
                 <div className="text-lg">concerts</div>
@@ -121,9 +121,9 @@ function Slide4({ seasonalData = {} }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="relative flex items-center justify-center bg-gradient-to-tl from-blue-500/20 to-transparent"
+              className="relative flex items-center justify-center bg-gradient-to-tl from-blue-500/20 to-transparent px-8"
             >
-              <div className="text-center text-white">
+              <div className="text-center text-white -translate-x-2 -translate-y-4">
                 <div className="text-4xl mb-2">❄️</div>
                 <div className="text-2xl font-bold">{seasonalData.winter}</div>
                 <div className="text-lg">concerts</div>

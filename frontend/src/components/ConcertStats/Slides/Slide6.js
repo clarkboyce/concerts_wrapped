@@ -7,7 +7,7 @@ function Slide6({ artists = {} }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowMessage(false);
-    }, 3000); // Show message for 3 seconds
+    }, 3200); // Show message for 3 seconds
 
     return () => clearTimeout(timer);
   }, []);
@@ -49,7 +49,7 @@ function Slide6({ artists = {} }) {
     const artistNames = mostPopularArtists
       .map(([artist]) => `<span class="${randomColor}">${artist}</span>`)
       .join(', ');
-    popularArtistMessage = `Your most played artist${mostPopularArtists.length > 1 ? 's were' : ' was'} ${artistNames} with ${maxCount} concert${maxCount > 1 ? 's' : ''}!`;
+    popularArtistMessage = `Your most played artist${mostPopularArtists.length > 1 ? 's were' : ' was'}:<br/>${artistNames}<br/>with ${maxCount} concert${maxCount > 1 ? 's' : ''}!`;
   }
 
   return (
@@ -79,7 +79,7 @@ function Slide6({ artists = {} }) {
               // Calculate relative size (1-2.5x base size)
               // If all artists appear once, use fixed 2x scale, otherwise calculate relative scale
               const allArtistsAppearOnce = sortedArtists.every(([_, count]) => count === 1);
-              const scale = allArtistsAppearOnce ? 2 : 1 + (count / maxCount) * 1.5;
+              const scale = allArtistsAppearOnce ? 1.5 : 1 + (count / maxCount) * 1.5;
               const fontSize = `${scale}rem`;
               
               // Get color from array, cycling through if we have more artists than colors

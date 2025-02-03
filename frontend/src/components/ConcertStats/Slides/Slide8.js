@@ -95,7 +95,7 @@ function Slide8({
           className="bg-pink-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🧑‍🎤 Top Artist</h2>
-          <p className="text-xl text-pink-600 text-center font-bold truncate overflow-hidden">{topArtist}</p>
+          <p className="text-md text-pink-600 text-center font-bold truncate overflow-hidden">{topArtist}</p>
         </motion.div>
 
         <motion.div 
@@ -125,7 +125,7 @@ function Slide8({
           className="bg-orange-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🏟️ Top Venue</h2>
-          <p className="text-xl text-orange-600 text-center font-bold truncate overflow-hidden">{topVenue}</p>
+          <p className="text-md text-orange-600 text-center font-bold truncate overflow-hidden">{topVenue}</p>
         </motion.div>
       </div>
 

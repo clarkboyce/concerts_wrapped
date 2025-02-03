@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import CountingNumber from "../Animations/CountingNumber";
 
 function Slide5({
   concertAttendance = [],
@@ -17,16 +18,16 @@ function Slide5({
   useEffect(() => {
     const timer1 = setTimeout(() => {
       setShowVenueDetails(false);
-    }, 2500);
+    }, 3000);
 
     const timer2 = setTimeout(() => {
       setShowVenueLocation(true);
-    }, 3000);
+    }, 3500);
 
     const timer3 = setTimeout(() => {
       setHideVenueLocation(true);
       setShowCapacityBars(true);
-    }, 7000);
+    }, 7500);
 
     return () => {
       clearTimeout(timer1);
@@ -40,6 +41,9 @@ function Slide5({
     concert.venue,
     concert.capacity
   ]);
+
+
+  const totalFans = concertAttendance.reduce((sum, concert) => sum + concert.capacity, 0);
 
   return (
     <motion.div 
@@ -61,14 +65,15 @@ function Slide5({
           You joined{" "}<br/>
           <CountingNumber
             className="bg-gradient-to-r from-blue-300 to-blue-500 text-transparent bg-clip-text"
-            value={concertAttendance
-              .reduce((sum, concert) => sum + concert.capacity, 0)
-              .toLocaleString()}
+            value={totalFans}
+            from={Math.round(totalFans * 0.8)}
+            formatFn={(val) => Math.round(val).toLocaleString()}
           />{" "}fans
         </div>
         <div className="text-white text-3xl font-bold">@</div>
         <div className="text-white text-4xl font-bold">
           {totalVenueCount} venues
+
         </div>
       </motion.div>
 

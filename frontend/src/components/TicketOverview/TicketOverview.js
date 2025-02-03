@@ -6,6 +6,11 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import FooterSpacer from "../common/FooterSpacer";
 import test_data from "../Services/test_data_user.json";
 import test_data_full from "../Services/test_data_full.json";
+import test_data_1 from "../Services/test_data_1.json";
+import test_data_12 from "../Services/test_data_12.json";
+import test_data_20 from "../Services/test_data_20.json";
+
+
 import DataEnrichmentService from "../Services/DataEnrichmentService";
 import ConcertDataServices from "../Services/ConcertDataServices";
 
@@ -78,15 +83,19 @@ const TicketOverview = () => {
 
     try {
       // Check if test data is valid
-      if (!test_data_full || !Array.isArray(test_data_full)) {
+      if (!test_data_20 || !Array.isArray(test_data_20)) {
         throw new Error('Test data is invalid or not in the correct format');
       }
 
-      console.log('Test data:', test_data_full); // Debug log
+
+
+      console.log('Test data:', test_data_20); // Debug log
+
 
       // Process the test data directly through ConcertDataServices
-      const processedStats = ConcertDataServices.processConcertData(test_data_full);
+      const processedStats = ConcertDataServices.processConcertData(test_data_20);
       
+
       // Verify processed stats before storing
       if (!processedStats) {
         throw new Error('Failed to process concert stats');
@@ -95,9 +104,10 @@ const TicketOverview = () => {
       console.log('Processed stats:', processedStats); // Debug log
       
       // Store the processed stats
-      localStorage.setItem("enrichedConcertData", JSON.stringify(test_data_full));
+      localStorage.setItem("enrichedConcertData", JSON.stringify(test_data_20));
       localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
       
+
       // Navigate to debug view
       navigate("/debug");
     } catch (err) {

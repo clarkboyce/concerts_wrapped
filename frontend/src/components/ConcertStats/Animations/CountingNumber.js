@@ -6,12 +6,13 @@ function CountingNumber({
   duration = 1, 
   formatFn = (val) => Math.round(val),
   delay = 0,
+  from = 0,
   className = '',
 }) {
   const [displayValue, setDisplayValue] = useState(0);
   
   useEffect(() => {
-    const controls = animate(0, value, {
+    const controls = animate(from, value, {
       duration: duration,
       delay: delay,
       ease: "easeOut",

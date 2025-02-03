@@ -39,7 +39,7 @@ function ConcertStatsWrapped() {
     12, // Slide 3
     12, // Slide 4
     16, // Slide 5
-    8, // Slide 6
+    9, // Slide 6
     10, // Slide 7
     6, // Slide 8
   ];
