@@ -86,7 +86,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
           animate={{ opacity: 1, y: 20 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.8 }}
-          className="text-white text-center mb-24 px-8 w-full"
+          className="text-white text-center mb-24 px-8 w-full justify-center items-center"
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -114,17 +114,17 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
               delay: 1.5,
               duration: 0.6,
             }}
-            className="space-y-4 w-[90%] mx-auto mt-8"
+            className="space-y-4 w-[100%] mx-auto mt-8"
           >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2 }}
-              className="text-gray-300 text-xl w-[90%]"
+              className="text-gray-300 text-xl w-[100%]"
             >
               That's enough to buy:
             </motion.div>
-            <div className="text-2xl w-[90%] mb-2">
+            <div className="text-2xl w-[100%] mb-2">
               {Array.from({ length: comparison.count }).map((_, i) => (
                 <motion.span
                   key={i}
@@ -140,7 +140,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2.2 + 0.1 * comparison.count }}
-              className="text-2xl w-[90%]"
+              className="text-2xl w-[100%]"
             >
               {comparison.text}
             </motion.div>
@@ -163,8 +163,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
           >
             I bet 20% of that
             <br />
-            was on fees
-            <br /> 😭😭😭
+            was on fees!!
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -172,11 +171,12 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
             transition={{ delay: 1.5 }}
             className="text-gray-200 text-2xl font-semibold"
           >
-            Skip the fees and save $
+            Skip the fees and save <span className="text-[#00AB66]">$</span>
             <CountingNumber 
-              className="text-cyan-400" 
+              className="text-[#00AB66]" 
               value={totalSpent * 0.2} 
               delay={1.5} 
+
             /> <br />
             by buying with CampusTicket.
             {/* New App Tile */}

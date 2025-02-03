@@ -90,7 +90,7 @@ const Home = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <p>{stats.storiesGenerated.toLocaleString()} Wrapped stories generated</p>
+              <p>238 Wrapped stories generated</p>
             </motion.div>
           </motion.div>
           <FooterSpacer />

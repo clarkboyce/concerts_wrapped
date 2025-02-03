@@ -6,5 +6,8 @@ export const getStats = () => {
 };
 
 export const incrementStoriesGenerated = () => {
-  return 235;
+  const stats = getStats();
+  stats.storiesGenerated += 1;
+  localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+  return stats.storiesGenerated;
 }; 

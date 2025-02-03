@@ -29,7 +29,7 @@ function Slide1({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
+        transition={{ duration: 2, delay: 0.4 }}
         className="text-white text-center mb-4"
       >
         <div className="font-bold">
@@ -49,14 +49,16 @@ function Slide1({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 2 }}
-        className="text-gray-200 text-2xl text-center"
+        transition={{ duration: 1.2, delay: 3 }}
+        className="text-gray-200 text-xl text-center mt-8"
       >
         That puts you in the<br />
-        top <CountingNumber 
-          value={topPercentage} 
-          formatFn={(val) => val.toFixed(1)}
-        />% of users *
+        top <span><CountingNumber
+          value={topPercentage}
+          duration={1.4}
+          formatFn={(val) => val.toFixed(1)
+          }
+        /></span>% of users *
       </motion.div>
     </div>
   );

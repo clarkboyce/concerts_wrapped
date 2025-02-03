@@ -5,7 +5,8 @@ function CountingNumber({
   value, 
   duration = 1, 
   formatFn = (val) => Math.round(val),
-  delay = 0 
+  delay = 0,
+  className = '',
 }) {
   const [displayValue, setDisplayValue] = useState(0);
   
@@ -27,7 +28,7 @@ function CountingNumber({
     return () => controls.stop();
   }, [value]); // Only re-run if value changes
 
-  return <span>{displayValue}</span>;
+  return <span className={className}>{displayValue}</span>;
 }
 
 export default CountingNumber; 

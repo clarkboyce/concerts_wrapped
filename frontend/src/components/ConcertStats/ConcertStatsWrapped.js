@@ -21,6 +21,7 @@ function ConcertStatsWrapped() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const audioRef = useRef(null);
   const TOTAL_SLIDES = 8;
+  const [isMuted, setIsMuted] = useState(false);
 
   // Add safety check
   if (!concertData) {
@@ -34,10 +35,10 @@ function ConcertStatsWrapped() {
   // Define durations for each slide (in seconds)
   const slideDurations = [
     8, // Slide 1
-    18, // Slide 2 - longer for the animations
+    16, // Slide 2
     12, // Slide 3
     12, // Slide 4
-    14, // Slide 5
+    16, // Slide 5
     8, // Slide 6
     10, // Slide 7
     6, // Slide 8
@@ -94,6 +95,13 @@ function ConcertStatsWrapped() {
     }
   };
 
+  const handleToggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0.2 : 0;
+      setIsMuted(!isMuted);
+    }
+  };
+
   const renderSlide = () => {
     const SlideComponent = slides[currentSlide];
 
@@ -136,12 +144,13 @@ function ConcertStatsWrapped() {
       case 4:
         return (
           <SlideComponent
-            venueCapacities={concertData.venueCapacities}
+            concertAttendance={concertData.concertAttendance}
             topVenue={concertData.topVenue}
             topVenueCity={concertData.topVenueCity}
             topVenueState={concertData.topVenueState}
             topVenueCapacity={concertData.topVenueCapacity}
             totalVenueCount={concertData.uniqueVenueCount}
+
           />
         );
 
@@ -181,14 +190,56 @@ function ConcertStatsWrapped() {
         preload="auto"
         style={{ position: "absolute", top: 50, left: 50 }}
       />
-      <div className="relative w-full h-[100dvh] md:w-[360px] md:h-[640px] bg-black md:rounded-xl">
+      <div className="relative w-full h-[100dvh] md:w-[360px] md:h-[700px] bg-black md:rounded-xl">
         <div className="absolute inset-0 md:rounded-xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-black to-black" />
           <div className="absolute inset-0 flex flex-col">
             {/* Exit button - only show when story has started */}
 
             {hasStarted && (
-              <div className="absolute top-6 right-4 z-20">
+              <div className="absolute top-6 right-4 z-20 flex gap-2">
+                <button
+                  onClick={handleToggleMute}
+                  className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                >
+                  {isMuted ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-white/70 hover:text-white transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-white/70 hover:text-white transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                      />
+                    </svg>
+                  )}
+                </button>
                 <button
                   onClick={handleExit}
                   className="p-2 rounded-full hover:bg-white/10 transition-colors"
@@ -219,9 +270,14 @@ function ConcertStatsWrapped() {
                   <AnimatePresence>
                     <motion.div
                       key="intro-text"
-                      initial={{ opacity: 0, y: 60 }}
-                      animate={{ opacity: 1, y: "-10px" }}
-                      transition={{ duration: 0.6 }}
+                      initial={{ opacity: 0, y: 200, scale: 2 }}
+                      animate={{ opacity: 1, y: 0, scale: 1, delay: 1 }}
+                      transition={{ 
+                        duration: 0.8,
+                        type: "spring",
+                        damping: 15,
+                        stiffness: 100
+                      }}
                       className="space-y-2 mb-10"
                     >
                       <div className="text-3xl font-semibold text-white">
@@ -231,10 +287,11 @@ function ConcertStatsWrapped() {
                         <br />
                         concerts in
                       </div>
-                      <div className="text-5xl font-bold text-blue-500">
+                      <div className="text-6xl font-bold bg-gradient-to-r from-[#FF00DD] to-[#0040FF] text-transparent bg-clip-text">
                         2024
                       </div>
                     </motion.div>
+
 
                     <motion.button
                       key="intro-button"

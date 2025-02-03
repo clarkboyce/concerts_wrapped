@@ -24,6 +24,7 @@ class ConcertDataServices {
     const genreCounts = this.calculateGenreCounts(concerts);
     const seasonalData = this.calculateSeasonalDistribution(concerts);
     const venueCapacities = this.getUniqueVenues(concerts);
+    const concertAttendance = this.getConcertAttendance(concerts);
     const mostVisitedVenueInfo = this.findMostVisitedVenueInfo(concerts);
     const artistCounts = this.calculateArtistCounts(concerts);
 
@@ -39,7 +40,7 @@ class ConcertDataServices {
       genreCounts,
       seasonalData,
       venues: Object.keys(venueCapacities),
-      venueCapacities,
+      concertAttendance,
       uniqueVenueCount: Object.keys(venueCapacities).length,
       topVenue: mostVisitedVenueInfo.venueName,
       topVenueCapacity: mostVisitedVenueInfo.capacity,
@@ -257,6 +258,20 @@ class ConcertDataServices {
       counts[concert.artist] = (counts[concert.artist] || 0) + 1;
       return counts;
     }, {});
+  }
+
+  static getConcertAttendance(concerts) {
+    // First, sort concerts by capacity to identify the largest
+    const sortedConcerts = [...concerts].sort((a, b) => b['venue capacity'] - a['venue capacity']);
+    const largestVenue = sortedConcerts[0]?.venue;
+
+    return concerts.map(concert => ({
+      artist: concert.artist,
+      venue: concert.venue,
+      capacity: concert.venue === largestVenue
+        ? concert['venue capacity']  // Keep original capacity for largest venue
+        : Math.round(concert['venue capacity'] * (0.85 + Math.random() * 0.15)) // Random between 80-100% for others
+    })).sort((a, b) => b.capacity - a.capacity);
   }
 }
 
