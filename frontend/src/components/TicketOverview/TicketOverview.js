@@ -13,6 +13,7 @@ import test_data_20 from "../Services/test_data_20.json";
 
 import DataEnrichmentService from "../Services/DataEnrichmentService";
 import ConcertDataServices from "../Services/ConcertDataServices";
+import LoadingModal from '../LoadingPage/LoadingModal';
 
 const TicketOverview = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const TicketOverview = () => {
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
 
   const handleAddTicket = () => {
     if (tickets.length < 30) {
@@ -64,14 +66,37 @@ const TicketOverview = () => {
 
     setIsSubmitting(true);
     setError(null);
+    setIsLoadingModalOpen(true);
+    const startTime = Date.now();
 
     try {
-      const enrichedData = await DataEnrichmentService.processTickets(filledTickets);
-      // Store the enriched data in localStorage for access in other components
-      localStorage.setItem("enrichedConcertData", JSON.stringify(enrichedData.processed_concerts));
+      const response = await fetch('http://ec2-18-227-228-101.us-east-2.compute.amazonaws.com:8000/api/concerts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tickets: filledTickets }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      // Ensure minimum 5 second display time
+      const elapsedTime = Date.now() - startTime;
+      if (elapsedTime < 5000) {
+        await new Promise(resolve => setTimeout(resolve, 5000 - elapsedTime));
+      }
+
+      localStorage.setItem("enrichedConcertData", JSON.stringify(data));
+      setIsLoadingModalOpen(false);
       navigate("/debug");
     } catch (err) {
+      console.error('API error:', err);
       setError('Failed to process tickets. Please try again.');
+      setIsLoadingModalOpen(false);
     } finally {
       setIsSubmitting(false);
     }
@@ -120,6 +145,10 @@ const TicketOverview = () => {
 
   return (
     <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] py-5 fixed">
+      <LoadingModal 
+        isOpen={isLoadingModalOpen} 
+        onClose={() => setIsLoadingModalOpen(false)} 
+      />
       <div className="w-[90%] max-w-2xl flex flex-col items-center justify-between gap-2">
         <motion.h1
           className="text-2xl md:text-3xl font-semibold text-center text-white"
