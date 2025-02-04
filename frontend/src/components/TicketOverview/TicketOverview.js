@@ -48,8 +48,7 @@ const TicketOverview = () => {
       (ticket) =>
         ticket.artist.trim() !== "" &&
         ticket.date !== "" &&
-        ticket.city.trim() !== "" &&
-        ticket.price !== ""
+        ticket.city.trim() !== ""
     );
   }, [tickets]);
 
@@ -60,8 +59,7 @@ const TicketOverview = () => {
       (ticket) =>
         ticket.artist.trim() !== "" &&
         ticket.date !== "" &&
-        ticket.city.trim() !== "" &&
-        ticket.price !== ""
+        ticket.city.trim() !== ""
     );
 
     setIsSubmitting(true);
@@ -70,7 +68,7 @@ const TicketOverview = () => {
     const startTime = Date.now();
 
     try {
-      const response = await fetch('http://ec2-18-227-228-101.us-east-2.compute.amazonaws.com:8000/api/concerts', {
+      const response = await fetch('http://ec2-18-227-228-101.us-east-2.compute.amazonaws.com:8000/api/concerts/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -30,9 +30,10 @@ const LoadingModal = ({ isOpen, onClose }) => {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
         >
-          <div className="w-[85%] max-w-lg flex flex-col items-center gap-8 p-8 rounded-2xl bg-[#0f0f0f]">
+          <div className="w-[100%] h-[100%] flex flex-col justify-center items-center gap-8 p-8 rounded-2xl bg-[#0f0f0f]">
             {/* Music Wave Loader */}
             <div className="music">
+
               {[...Array(10)].map((_, index) => (
                 <div 
                   key={index} 
