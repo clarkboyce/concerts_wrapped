@@ -97,7 +97,13 @@ function ConcertStatsWrapped() {
 
   const handleToggleMute = () => {
     if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0.2 : 0;
+      if (isMuted) {
+        audioRef.current.volume = 0.2;
+        audioRef.current.muted = false;
+      } else {
+        audioRef.current.volume = 0;
+        audioRef.current.muted = true;
+      }
       setIsMuted(!isMuted);
     }
   };
@@ -188,6 +194,7 @@ function ConcertStatsWrapped() {
         ref={audioRef}
         src={backgroundAudio}
         preload="auto"
+        playsInline
         style={{ position: "absolute", top: 50, left: 50 }}
       />
       <div className="relative w-full h-[100dvh] md:w-[360px] md:h-[700px] bg-black md:rounded-xl">

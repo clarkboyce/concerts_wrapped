@@ -49,7 +49,7 @@ function Slide6({ artists = {} }) {
     const artistNames = mostPopularArtists
       .map(([artist]) => `<span class="${randomColor}">${artist}</span>`)
       .join(', ');
-    popularArtistMessage = `Your most played artist${mostPopularArtists.length > 1 ? 's were' : ' was'}:<br/>${artistNames}<br/>with ${maxCount} concert${maxCount > 1 ? 's' : ''}!`;
+    popularArtistMessage = `Your most viewed artist${mostPopularArtists.length > 1 ? 's were' : ' was'}:<br/>${artistNames}<br/>with ${maxCount} concert${maxCount > 1 ? 's' : ''}!`;
   }
 
   return (
@@ -79,7 +79,7 @@ function Slide6({ artists = {} }) {
               // Calculate relative size (1-2.5x base size)
               // If all artists appear once, use fixed 2x scale, otherwise calculate relative scale
               const allArtistsAppearOnce = sortedArtists.every(([_, count]) => count === 1);
-              const scale = allArtistsAppearOnce ? 1.5 : 1 + (count / maxCount) * 1.5;
+              const scale = allArtistsAppearOnce ? 1 : 0.5 + (count / maxCount) * 1.5;
               const fontSize = `${scale}rem`;
               
               // Get color from array, cycling through if we have more artists than colors
@@ -95,14 +95,14 @@ function Slide6({ artists = {} }) {
                 >
                   <span 
                     className={`${colorClass}`}
-                    style={{ fontSize, whiteSpace: 'nowrap' }}
+                    style={{ fontSize, whiteSpace: 'nowrap', lineHeight: '1.2' }}
                   >
                     {artist}
                   </span>
                   {index < sortedArtists.length - 1 && (
                     <span 
                       className="text-gray-500 mx-2" 
-                      style={{ fontSize }}
+                      style={{ fontSize, lineHeight: '1.2' }}
                     >•</span>
                   )}
                 </motion.span>
