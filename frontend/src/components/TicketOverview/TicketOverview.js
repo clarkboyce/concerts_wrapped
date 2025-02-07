@@ -4,11 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Ticket from "./Ticket";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import FooterSpacer from "../common/FooterSpacer";
-import test_data from "../Services/test_data_user.json";
-import test_data_full from "../Services/test_data_full.json";
-import test_data_1 from "../Services/test_data_1.json";
-import test_data_12 from "../Services/test_data_12.json";
-import test_data_20 from "../Services/test_data_20.json";
+
 
 import ConcertDataServices from "../Services/ConcertDataServices";
 import LoadingModal from '../LoadingPage/LoadingModal';
@@ -114,44 +110,10 @@ const TicketOverview = () => {
     }
   };
 
-  const handleTestMode = async () => {
-    setIsSubmitting(true);
-    setError(null);
 
-    try {
-      // Check if test data is valid
-      if (!test_data_20 || !Array.isArray(test_data_20)) {
-        throw new Error('Test data is invalid or not in the correct format');
-      }
-
-      console.log('Test data:', test_data_20); // Debug log
-
-      // Process the test data directly through ConcertDataServices
-      const processedStats = ConcertDataServices.processConcertData(test_data_20);
-      
-      // Verify processed stats before storing
-      if (!processedStats) {
-        throw new Error('Failed to process concert stats');
-      }
-
-      console.log('Processed stats:', processedStats); // Debug log
-      
-      // Store the processed stats
-      localStorage.setItem("enrichedConcertData", JSON.stringify(test_data_20));
-      localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
-      
-      // Navigate to debug view
-      navigate("/debug");
-    } catch (err) {
-      console.error('Test mode error:', err);
-      setError(`Failed to process test data: ${err.message}`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
-    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] py-5 fixed">
+    <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] py-8 fixed">
       <LoadingModal 
         isOpen={isLoadingModalOpen} 
         onClose={() => setIsLoadingModalOpen(false)} 
@@ -224,15 +186,6 @@ const TicketOverview = () => {
           {isSubmitting ? 'Processing...' : 'Generate Wrapped'}
         </motion.button>
 
-        <motion.button
-          onClick={handleTestMode}
-          className="px-6 py-2 rounded-[20px] font-medium bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Use Test Data
-        </motion.button>
-        <FooterSpacer />
       </div>
     </div>
   );
