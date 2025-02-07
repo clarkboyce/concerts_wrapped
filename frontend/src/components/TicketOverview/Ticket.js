@@ -76,8 +76,8 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
           <div className="flex flex-col gap-2">
             <input
               type="number"
-              value={ticket.price || ''}
-              onChange={(e) => onChange(index, 'price', e.target.value)}
+              value={ticket.ticket_price || ''}
+              onChange={(e) => onChange(index, 'ticket_price', e.target.value)}
               className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none"
               placeholder="Price (recommended)"
             />

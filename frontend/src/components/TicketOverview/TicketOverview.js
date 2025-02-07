@@ -10,15 +10,14 @@ import test_data_1 from "../Services/test_data_1.json";
 import test_data_12 from "../Services/test_data_12.json";
 import test_data_20 from "../Services/test_data_20.json";
 
-
-import DataEnrichmentService from "../Services/DataEnrichmentService";
 import ConcertDataServices from "../Services/ConcertDataServices";
 import LoadingModal from '../LoadingPage/LoadingModal';
+import axios from 'axios';
 
 const TicketOverview = () => {
   const navigate = useNavigate();
   const [tickets, setTickets] = useState([
-    { artist: "", date: "", city: "", price: "" },
+    { artist: "", date: "", city: "", ticket_price: "" },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +25,7 @@ const TicketOverview = () => {
 
   const handleAddTicket = () => {
     if (tickets.length < 30) {
-      setTickets([...tickets, { artist: "", date: "", city: "", price: "" }]);
+      setTickets([...tickets, { artist: "", date: "", city: "", ticket_price: "" }]);
     }
   };
 
@@ -68,31 +67,46 @@ const TicketOverview = () => {
     const startTime = Date.now();
 
     try {
-      const response = await fetch('http://ec2-18-227-228-101.us-east-2.compute.amazonaws.com:8000/api/concerts/', {
-        method: 'POST',
+      const response = await axios.post('http://localhost:8000/api/concerts/', {
+        userId: '123',
+        tickets: filledTickets
+      }, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ tickets: filledTickets }),
+        }
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // Transform the data to only include matched and created tickets
+      const processedData = response.data
+        .filter(item => item.status === "Matched" || item.status === "Created")
+        .map(item => ({
+          artist: item.concert.artist,
+          capacity: item.concert.capacity,
+          city: item.concert.city,
+          date: item.concert.date,
+          genres: item.concert.genres,
+          number_of_songs: item.concert.number_of_songs,
+          state: item.concert.state,
+          venue: item.concert.venue,
+          price: item.ticket.ticket_price
+        }));
 
-      const data = await response.json();
-      
-      // Ensure minimum 5 second display time
       const elapsedTime = Date.now() - startTime;
       if (elapsedTime < 5000) {
         await new Promise(resolve => setTimeout(resolve, 5000 - elapsedTime));
       }
 
-      localStorage.setItem("enrichedConcertData", JSON.stringify(data));
+      // Store both the raw and processed data
+      localStorage.setItem("enrichedConcertData", JSON.stringify(response.data));
+      
+      // Process the transformed data
+      const processedStats = ConcertDataServices.processConcertData(processedData);
+      localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
+      
       setIsLoadingModalOpen(false);
       navigate("/debug");
-    } catch (err) {
-      console.error('API error:', err);
+    } catch (error) {
+      console.error('API error:', error.message);
       setError('Failed to process tickets. Please try again.');
       setIsLoadingModalOpen(false);
     } finally {
@@ -110,15 +124,11 @@ const TicketOverview = () => {
         throw new Error('Test data is invalid or not in the correct format');
       }
 
-
-
       console.log('Test data:', test_data_20); // Debug log
-
 
       // Process the test data directly through ConcertDataServices
       const processedStats = ConcertDataServices.processConcertData(test_data_20);
       
-
       // Verify processed stats before storing
       if (!processedStats) {
         throw new Error('Failed to process concert stats');
@@ -130,7 +140,6 @@ const TicketOverview = () => {
       localStorage.setItem("enrichedConcertData", JSON.stringify(test_data_20));
       localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
       
-
       // Navigate to debug view
       navigate("/debug");
     } catch (err) {
