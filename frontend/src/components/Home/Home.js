@@ -10,13 +10,16 @@ const Home = () => {
   const [stats, setStats] = useState(getStats());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleGetStarted = () => {
+    navigate("/tickets");
+  };
+
   const handleReportBug = () => {
     setIsModalOpen(true);
   };
 
   return (
     <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] fixed">
-
       <div className="w-[80%] relative flex flex-col">
         {/* Social Icons */}
         <div className="absolute top-6 right-6 md:right-2 flex gap-4">
@@ -89,7 +92,7 @@ const Home = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              onClick={() => navigate("/ticket-overview")}
+              onClick={handleGetStarted}
             >
               Get Your Wrapped in 2 Minutes
             </motion.button>
@@ -102,7 +105,6 @@ const Home = () => {
             >
               <p>238 Wrapped stories generated</p>
             </motion.div>
-            
           </motion.div>
           
           <FooterSpacer /> 

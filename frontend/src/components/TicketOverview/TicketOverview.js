@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Ticket from "./Ticket";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import FooterSpacer from "../common/FooterSpacer";
-
-
 import ConcertDataServices from "../Services/ConcertDataServices";
 import LoadingModal from '../LoadingPage/LoadingModal';
+import ErrorModal from '../common/errorModal';
 import axios from 'axios';
+
 
 const TicketOverview = () => {
   const navigate = useNavigate();
@@ -18,6 +17,8 @@ const TicketOverview = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+
 
   const handleAddTicket = () => {
     if (tickets.length < 30) {
@@ -102,11 +103,15 @@ const TicketOverview = () => {
       setIsLoadingModalOpen(false);
       navigate("/debug");
     } catch (error) {
-      console.error('API error:', error.message);
-      setError('Failed to process tickets. Please try again.');
-      setIsLoadingModalOpen(false);
+      console.error('API error:', error);
+      setError({
+        status: error.response?.status,
+        message: error.response?.data?.message || error.message
+      });
+      setErrorModalOpen(true);
     } finally {
       setIsSubmitting(false);
+      setIsLoadingModalOpen(false);
     }
   };
 
@@ -117,6 +122,11 @@ const TicketOverview = () => {
       <LoadingModal 
         isOpen={isLoadingModalOpen} 
         onClose={() => setIsLoadingModalOpen(false)} 
+      />
+      <ErrorModal
+        open={errorModalOpen}
+        onClose={() => setErrorModalOpen(false)}
+        error={error}
       />
       <div className="w-[90%] max-w-2xl flex flex-col items-center justify-between gap-2">
         <motion.h1
@@ -168,7 +178,7 @@ const TicketOverview = () => {
 
         {error && (
           <div className="text-red-500 mb-4">
-            {error}
+            {error.message}
           </div>
         )}
 
@@ -185,7 +195,6 @@ const TicketOverview = () => {
         >
           {isSubmitting ? 'Processing...' : 'Generate Wrapped'}
         </motion.button>
-
       </div>
     </div>
   );

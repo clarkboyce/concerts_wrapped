@@ -8,15 +8,13 @@ import DebugDataView from './components/Debug/DebugDataView';
 
 const App = () => {
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/wrapped" element={<ConcertStatsWrapped />} />
-        <Route path="/ticket-overview" element={<TicketOverview />} />
+        <Route path="/tickets" element={<TicketOverview />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/debug" element={<DebugDataView />} />
       </Routes>
-    </Router>
   );
 };
 
