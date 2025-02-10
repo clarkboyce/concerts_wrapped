@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import FooterSpacer from "../common/FooterSpacer";
-import { getStats } from "../../utils/statsManager";
 import BugReportModal from "./BugReportModal";
 import axios from "axios";
 
@@ -17,7 +16,7 @@ const Home = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/user-concerts/total-users"
+          `${process.env.REACT_APP_API_URL}/api/user-concerts/total-users`
         );
         setNumWrapped(response.data.total_users);
       } catch (error) {

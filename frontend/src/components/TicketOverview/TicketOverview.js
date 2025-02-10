@@ -66,7 +66,7 @@ const TicketOverview = () => {
     const startTime = Date.now();
 
     try {
-      const response = await axios.post('http://localhost:8000/api/concerts/', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/concerts/`, {
         userId: user.sub,
         tickets: filledTickets
       }, {
