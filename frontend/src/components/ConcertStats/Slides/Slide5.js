@@ -155,7 +155,7 @@ function Slide5({
 
                   {/* Content Container */}
                   <div className="flex flex-col flex-1">
-                    <div className="text-white text-sm mb-1 truncate">
+                    <div className="text-white text-sm mb-1 truncate max-w-[200px]">
                       {concertAttendance[index].artist} - {venue}
                     </div>
                     <div className="flex items-center gap-1">

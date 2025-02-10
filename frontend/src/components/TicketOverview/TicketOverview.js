@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Ticket from "./Ticket";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import ConcertDataServices from "../Services/ConcertDataServices";
@@ -11,6 +12,7 @@ import axios from 'axios';
 
 const TicketOverview = () => {
   const navigate = useNavigate();
+  const { user } = useAuth0();
   const [tickets, setTickets] = useState([
     { artist: "", date: "", city: "", ticket_price: "" },
   ]);
@@ -65,13 +67,14 @@ const TicketOverview = () => {
 
     try {
       const response = await axios.post('http://localhost:8000/api/concerts/', {
-        userId: '123',
+        userId: user.sub,
         tickets: filledTickets
       }, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
+
 
       // Transform the data to only include matched and created tickets
       const processedData = response.data
