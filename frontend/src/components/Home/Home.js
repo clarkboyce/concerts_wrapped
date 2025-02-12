@@ -14,6 +14,8 @@ const Home = () => {
   const { isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [numWrapped, setNumWrapped] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState('');
+  const [isLaunchTime, setIsLaunchTime] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -23,7 +25,7 @@ const Home = () => {
         );
         setNumWrapped(response.data.total_users);
       } catch (error) {
-        setNumWrapped("1,432");
+        setNumWrapped("0");
         console.error(error);
       }
     })();
@@ -37,6 +39,33 @@ const Home = () => {
       document.body.style.overflowY = "hidden";
       document.body.style.overflowX = "hidden";
     };
+  }, []);
+
+  useEffect(() => {
+    const targetDate = new Date('2025-02-14T16:00:00'); // Friday 5pm
+    
+    const updateCountdown = () => {
+      const now = new Date();
+      const difference = targetDate - now;
+      
+      if (difference <= 0) {
+        setIsLaunchTime(true);
+        setTimeRemaining('');
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    };
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+
+    return () => clearInterval(timer);
   }, []);
 
   // If still loading auth status, return null or a loading spinner
@@ -168,17 +197,32 @@ const Home = () => {
               </motion.p>
 
               {!isAuthenticated && (
-                <motion.button
-                  className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                  onClick={handleGetStarted}
-                >
-                  Get Your Wrapped in 2 Minutes
-                </motion.button>
+                <div className="flex flex-col items-center gap-4">
+                  {timeRemaining && (
+                    <motion.p
+                      className="text-gray-200 text-xl"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                    >
+                      Get your wrapped in: {timeRemaining}
+                    </motion.p>
+                  )}
+                  {isLaunchTime && (
+                  <motion.button
+                    className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                    whileHover={isLaunchTime ? { scale: 1.05 } : {}}
+                    whileTap={isLaunchTime ? { scale: 0.95 } : {}}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    onClick={handleGetStarted}
+                    disabled={!isLaunchTime}
+                  >
+                    Get Your Wrapped in 2 Minutes
+                  </motion.button>
+                  )}
+                </div>  
               )}
 
               {isAuthenticated && (
