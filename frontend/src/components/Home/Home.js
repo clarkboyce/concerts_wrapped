@@ -3,6 +3,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import FooterSpacer from "../common/FooterSpacer";
+import wrappy from "../common/wrappy.png";
+import ExampleTicket from "./ExampleTicket";
+import start_img from "./start_img.png";
 import BugReportModal from "./BugReportModal";
 import axios from "axios";
 
@@ -24,6 +27,16 @@ const Home = () => {
         console.error(error);
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflowY = "auto";
+    document.body.style.overflowX = "hidden";
+
+    return () => {
+      document.body.style.overflowY = "hidden";
+      document.body.style.overflowX = "hidden";
+    };
   }, []);
 
   // If still loading auth status, return null or a loading spinner
@@ -57,10 +70,44 @@ const Home = () => {
 
   return (
     <>
-      <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f]">
+      <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] relative">
         <div className="w-[80%] sm:w-[70%] relative flex flex-col">
+          <motion.img
+            initial={{ opacity: 0, y: 20 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              rotate: [0, -10, 10, -10, 10, 0],
+            }}
+            transition={{
+              duration: 0.8,
+              rotate: {
+                delay: 1,
+                duration: 2,
+                ease: "easeInOut",
+              },
+            }}
+            src={wrappy}
+            alt="Concerts Wrapped Logo"
+            className="w-14 h-14 absolute top-2 left-6"
+          />
           {/* Social Icons */}
-          <div className="absolute top-6 right-6 md:right-2 flex gap-4">
+          <div className="absolute top-6 right-6 md:right-2 flex gap-5 items-center">
+            <a
+              href="https://instagram.com/campusticket"
+              className="text-gray-400 hover:text-white transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
             <a
               href="admin@campus-ticket.com"
               className="text-gray-400 hover:text-white transition-colors"
@@ -78,21 +125,6 @@ const Home = () => {
                   strokeWidth={2}
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
-              </svg>
-            </a>
-            <a
-              href="https://instagram.com/campusticket"
-              className="text-gray-400 hover:text-white transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
               </svg>
             </a>
             {isAuthenticated && (
@@ -191,66 +223,182 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f]">
-        <div className="w-[80%] sm:w-[70%] relative flex flex-col">
-          <div className="flex-1 flex flex-col items-center justify-center text-center">
-            <motion.h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-emerald-400 inline-block text-transparent bg-clip-text">
-              How to Use
+      <div className="h-full w-full flex justify-center bg-[#0f0f0f] relative">
+        <div className="p-8 bg-radial-at-t from-cyan-400/10 to-transparent absolute top-0 w-full h-full" />
+        <div className="w-[80%] sm:w-[60%] relative flex flex-col">
+          <div className="flex-1 flex flex-col items-center justify-center text-center mt-20">
+            <motion.h1 className="text-4xl w-full font-bold mb-12 bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">
+              How It Works
             </motion.h1>
-            <motion.div className="flex gap-4">
-              <motion.div className="flex flex-col gap-4 font-bold text-2xl">
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-              </motion.div>
-              <motion.div className="flex flex-col gap-4 text-gray-300 text-lg">
-                <p>Make an account</p>
-                <p>Submit your tickets</p>
-                <p>Watch and share your wrapped</p>
-              </motion.div>
-            </motion.div>
-            <motion.p className="text-gray-300 text-lg">
-              Experiencing a proble?
-            </motion.p>
-            <BugReportModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
 
-            <button
-              className="absolute bottom-8 text-gray-400 hover:text-white transition-colors"
-              onClick={handleReportBug}
-            >
-              Report a bug
-            </button>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+              {/* Step 1 */}
+              <motion.div
+                className="flex flex-col items-start space-y-4 text-left"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="bg-gray-100/10 rounded-xl p-3 w-12 h-12 flex items-center justify-center">
+                  <span className="text-2xl text-emerald-400 font-bold">1</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white">
+                  Sign-up with .Edu Email
+                </h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Create your campusticket account and verify your student email
+                  address.
+                </p>
+              </motion.div>
+
+              {/* Step 2 */}
+              <motion.div
+                className="flex flex-col items-start space-y-4 text-left"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="bg-gray-100/10 rounded-xl p-3 w-12 h-12 flex items-center justify-center">
+                  <span className="text-2xl text-emerald-400 font-bold">2</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white">
+                  Enter Your Tickets
+                </h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Fill in the details of all the concerts you attended in 2024.
+                </p>
+                <div className="w-full mt-4 mb-4">
+                  <ExampleTicket />
+                </div>
+              </motion.div>
+
+              {/* Step 3 */}
+              <motion.div
+                className="flex flex-col items-start space-y-4 text-left"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <div className="bg-gray-100/10 rounded-xl p-3 w-12 h-12 flex items-center justify-center">
+                  <span className="text-2xl text-emerald-400 font-bold">3</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white">
+                  Get Your Wrapped
+                </h3>
+
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Watch your personalized concert story and share it with
+                  friends.
+                </p>
+                <img
+                  src={start_img}
+                  className="w-full mt-4 mb-4 rounded-2xl bg-black/20 border-2 border-white/10 backdrop-blur-md"
+                ></img>
+              </motion.div>
+            </div>
+            <div className="m-8 flex flex-col text-lg gap-2">
+              <p className="text-left text-gray-200 font-bold">
+                Having issues?
+              </p>
+              <button className="w-content text-gray-400 ">report a bug</button>
+            </div>
           </div>
-          <div className="flex flex-col gap-4">
-            <motion.h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-emerald-400 inline-block text-transparent bg-clip-text">
+          <div className="flex-1 flex flex-col justify-center items-start text-left gap-4 mt-20">
+            <motion.h1 className="text-3xl w-full font-bold mb-2 bg-gradient-to-r from-cyan-400 to-emerald-400 inline-block text-transparent bg-clip-text">
               What is CampusTicket?
             </motion.h1>
-            <motion.p className="text-gray-300 text-lg">
-              CampusTicket is a platform that allows you to submit your tickets
-              and get a wrapped story of your concert memories.
+            <motion.p className="text-gray-300 text-md">
+              CampusTicket is a platform for students to sell their concert and
+              sports tickets to other students with no fees. We created Concerts
+              Wrapped to give you your concerts stats for 2024 and get you ready
+              for 2025.
+            </motion.p>
+            <motion.p className="text-gray-300 text-md">
+              We are using your CampusTicket account to store your wrapped
+              information so that you can compare your stats next year!
             </motion.p>
           </div>
-          <div className="flex-1 flex flex-col items-center justify-center text-center">
-            <motion.h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-emerald-400 inline-block text-transparent bg-clip-text">
+          <div className="flex-1 flex flex-col items-center justify-center text-left gap-4 mt-20">
+            <motion.h1 className="text-3xl w-full font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 inline-block text-transparent bg-clip-text">
               FAQs
             </motion.h1>
-            <motion.div className="flex flex-col gap-4 border-t border-gray-700 pt-4">
-              <motion.p className="text-gray-300 text-lg">Is it free?</motion.p>
-            </motion.div>
-            <motion.div className="flex flex-col gap-4 border-t border-gray-700 pt-4">
-              <motion.p className="text-gray-300 text-lg">
-                Where does my data go?
+            <motion.div className="flex flex-col items-start gap-2 w-full rounded-2xl bg-black/20 border border-white/10 backdrop-blur-md p-4">
+              <motion.p className="text-white text-lg">
+                Is Concerts Wrapped free?
+              </motion.p>
+              <motion.p className="text-gray-300 text-sm">
+                Totally, 100% free just like CampusTicket. Make sure to share
+                with your friends!
               </motion.p>
             </motion.div>
-            <motion.div className="flex flex-col gap-4 border-t border-gray-700 pt-4">
-              <motion.p className="text-gray-300 text-lg">
+            <motion.div className="flex flex-col items-start gap-2 w-full rounded-2xl bg-black/20 border border-white/10 backdrop-blur-md p-4">
+              <motion.p className="text-white text-lg">
+                Is it only for university students?
+              </motion.p>
+              <motion.p className="text-gray-300 text-sm">
+                Currently we require a university email to signup or campusticket but we plan to
+                expand to all students soon. Tap{" "}
+                <a
+                  href="https://subscribe.concertswrapped.com"
+                  className="text-cyan-400"
+                >
+                  here
+                </a>{" "}
+                for phone reminders.
+              </motion.p>
+            </motion.div>
+            <motion.div className="flex flex-col items-start gap-2 w-full rounded-2xl bg-black/20 border border-white/10 backdrop-blur-md p-4">
+              <motion.p className="text-white text-lg">
+                Where does my data go?
+              </motion.p>
+              <motion.p className="text-gray-300 text-sm">
+                We only store information regaurding the tickets that you submit
+                and we are working on a feature to view your previous wraps
+                right now.
+              </motion.p>
+            </motion.div>
+            <motion.div className="flex flex-col items-start gap-2 w-full rounded-2xl bg-black/20 border border-white/10 backdrop-blur-md p-4">
+              <motion.p className="text-white text-lg">
                 Does it still work if I only saw a few concerts?
+              </motion.p>
+              <motion.p className="text-gray-300 text-sm">
+                Yes, it still works you might just not see as many stats.
               </motion.p>
             </motion.div>
           </div>
+          <span className="text-gray-300 text-sm text-center pb-8 pt-8">
+            <a
+              href="https://campus-ticket.com/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms
+            </a>{" "}
+            |{" "}
+            <a
+              href="https://campus-ticket.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy
+            </a>{" "}
+            |{" "}
+            <a
+              href="https://campus-ticket.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              CampusTicket
+            </a>{" "}
+            |{" "}
+            <a
+              href="https://instagram.com/campusticket"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>
+          </span>
         </div>
       </div>
     </>
