@@ -330,7 +330,7 @@ const Home = () => {
         )}
       <div className="h-full w-full flex justify-center bg-[#0f0f0f] relative pb-15">
         <div className="p-8 bg-radial-at-t from-cyan-400/10 to-transparent absolute top-0 w-full h-full" />
-        <div className="w-[80%] sm:w-[60%] relative flex flex-col mb-30">
+        <div className="w-[80%] sm:w-[60%] relative flex flex-col mb-[120px]">
           <div className="flex-1 flex flex-col items-center justify-center text-center mt-20">
             <motion.h1 className="text-4xl w-full font-bold mb-12 bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">
               How It Works
