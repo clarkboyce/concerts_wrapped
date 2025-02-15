@@ -16,6 +16,7 @@ const Home = () => {
   const [numWrapped, setNumWrapped] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState('');
   const [isLaunchTime, setIsLaunchTime] = useState(false);
+  const [showArrow, setShowArrow] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -59,13 +60,24 @@ const Home = () => {
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-      setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+      setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
     };
 
     const timer = setInterval(updateCountdown, 1000);
     updateCountdown(); // Initial call
 
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowArrow(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // If still loading auth status, return null or a loading spinner
@@ -76,6 +88,27 @@ const Home = () => {
       </div>
     );
   }
+
+  const handleShareWrapped = async () => {
+    const shareUrl = window.location.origin;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: '2024 Concerts Wrapped',
+          text: 'Check out your concert stats for 2024!',
+          url: shareUrl
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Link copied to clipboard!');
+      }
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Link copied to clipboard!');
+    }
+  };
 
   const handleGetStarted = async () => {
     if (!isAuthenticated) {
@@ -100,7 +133,7 @@ const Home = () => {
   return (
     <>
       <div className="h-[100dvh] w-full flex justify-center bg-[#0f0f0f] relative">
-        <div className="w-[80%] sm:w-[70%] relative flex flex-col">
+        <div className="w-[90%] sm:w-[70%] relative flex flex-col">
           <motion.img
             initial={{ opacity: 0, y: 20 }}
             animate={{
@@ -117,6 +150,7 @@ const Home = () => {
               },
             }}
             src={wrappy}
+            onClick={handleShareWrapped}
             alt="Concerts Wrapped Logo"
             className="w-14 h-14 absolute top-2 left-6"
           />
@@ -252,24 +286,51 @@ const Home = () => {
                 </motion.button> */}
                 </div>
               )}
-
-              <motion.div
+              <div className="mt-8">
+              <a className="text-gray-400 text-sm underline" href="https://subscribe.concertswrapped.com">Get a text reminder when it releases.</a>
+              </div>
+              {/* <motion.div
                 className="mt-8 text-gray-400"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
                 <p>{numWrapped} wrapped stories generated</p>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             <FooterSpacer />
           </div>
         </div>
       </div>
-      <div className="h-full w-full flex justify-center bg-[#0f0f0f] relative">
+      {showArrow && (
+          <motion.div 
+            className="absolute bottom-16 left-[48%]"
+            animate={{ y: [0, 16, 0] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 1.5,
+              ease: "easeInOut"
+            }}
+          >
+            <svg 
+              className="w-8 h-8 text-white/70" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+              />
+            </svg>
+          </motion.div>
+        )}
+      <div className="h-full w-full flex justify-center bg-[#0f0f0f] relative pb-15">
         <div className="p-8 bg-radial-at-t from-cyan-400/10 to-transparent absolute top-0 w-full h-full" />
-        <div className="w-[80%] sm:w-[60%] relative flex flex-col mb-10">
+        <div className="w-[80%] sm:w-[60%] relative flex flex-col mb-20">
           <div className="flex-1 flex flex-col items-center justify-center text-center mt-20">
             <motion.h1 className="text-4xl w-full font-bold mb-12 bg-gradient-to-r from-cyan-400 to-emerald-400 text-transparent bg-clip-text">
               How It Works
@@ -344,7 +405,7 @@ const Home = () => {
               <p className="text-left text-gray-200 font-bold">
                 Having issues?
               </p>
-              <button className="w-content text-gray-400 ">report a bug</button>
+              <button className="w-content text-gray-400 underline" onClick={handleReportBug}>report a bug</button>
             </div>
           </div>
           <div className="flex-1 flex flex-col justify-center items-start text-left gap-4 mt-20">
@@ -445,6 +506,7 @@ const Home = () => {
           </span>
         </div>
       </div>
+      <BugReportModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };
