@@ -42,7 +42,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const targetDate = new Date('2025-02-14T16:00:00'); // Friday 5pm
+    const targetDate = new Date('2025-02-15T12:00:00'); // Friday 5pm
     
     const updateCountdown = () => {
       const now = new Date();
@@ -205,7 +205,7 @@ const Home = () => {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.6 }}
                     >
-                      Get your wrapped in: {timeRemaining}
+                      Get your wrapped: {timeRemaining}
                     </motion.p>
                   )}
                   {isLaunchTime && (
