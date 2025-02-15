@@ -14,8 +14,6 @@ const Home = () => {
   const { isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [numWrapped, setNumWrapped] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState('');
-  const [isLaunchTime, setIsLaunchTime] = useState(false);
   const [showArrow, setShowArrow] = useState(true);
 
   useEffect(() => {
@@ -40,33 +38,6 @@ const Home = () => {
       document.body.style.overflowY = "hidden";
       document.body.style.overflowX = "hidden";
     };
-  }, []);
-
-  useEffect(() => {
-    const targetDate = new Date('2025-02-15T12:00:00'); // Friday 5pm
-    
-    const updateCountdown = () => {
-      const now = new Date();
-      const difference = targetDate - now;
-      
-      if (difference <= 0) {
-        setIsLaunchTime(true);
-        setTimeRemaining('');
-        return;
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
-    };
-
-    const timer = setInterval(updateCountdown, 1000);
-    updateCountdown(); // Initial call
-
-    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -231,40 +202,44 @@ const Home = () => {
               </motion.p>
 
               {!isAuthenticated && (
-                <div className="flex flex-col items-center gap-4">
-                  {timeRemaining && (
-                    <motion.p
-                      className="text-gray-200 text-xl"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 }}
-                    >
-                      Get your wrapped: {timeRemaining}
-                    </motion.p>
-                  )}
-                  {isLaunchTime && (
-                  <motion.button
-                    className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-                    whileHover={isLaunchTime ? { scale: 1.05 } : {}}
-                    whileTap={isLaunchTime ? { scale: 0.95 } : {}}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                    onClick={handleGetStarted}
-                    disabled={!isLaunchTime}
-                  >
-                    Get Your Wrapped in 2 Minutes
-                  </motion.button>
-                  )}
-                </div>  
+                <motion.button
+                  className="inline-flex items-center justify-center px-4 h-12 text-xl text-white border-0 rounded-md cursor-pointer relative overflow-hidden whitespace-nowrap"
+                  style={{
+                    backgroundImage: "radial-gradient(100% 100% at 100% 0,rgb(29, 158, 111) 0,rgb(27, 161, 182) 100%)",
+                    boxShadow: "rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset"
+                  }}
+                  whileHover={{
+                    boxShadow: "rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px,rgb(31, 153, 172) 0 -3px 0 inset",
+                    y: -2
+                  }}
+                  whileTap={{
+                    boxShadow: "#22d3ee 0 3px 7px inset",
+                    y: 2
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  onClick={handleGetStarted}
+                >
+                  Get Wrapped in 2 Minutes
+                </motion.button>
               )}
 
               {isAuthenticated && (
-                <div className="flex max-w-sm flex-col gap-4 mx-auto">
                   <motion.button
-                    className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center justify-center px-4 h-12 text-xl text-white border-0 rounded-md cursor-pointer relative overflow-hidden whitespace-nowrap"
+                    style={{
+                      backgroundImage: "radial-gradient(100% 100% at 100% 0,rgb(29, 158, 111) 0,rgb(27, 161, 182) 100%)",
+                      boxShadow: "rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset"
+                    }}
+                    whileHover={{
+                      boxShadow: "rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px,rgb(31, 153, 172) 0 -3px 0 inset",
+                      y: -2
+                    }}
+                    whileTap={{
+                      boxShadow: "#22d3ee 0 3px 7px inset",
+                      y: 2
+                    }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.7 }}
@@ -273,7 +248,7 @@ const Home = () => {
                     Click me again!
                   </motion.button>
 
-                  {/* <motion.button
+                  /* <motion.button
                   className="bg-white text-[#0f0f0f] px-4 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -283,20 +258,17 @@ const Home = () => {
                   onClick={handleSavedWrapped}
                 >
                   Your saved wrapped
-                </motion.button> */}
-                </div>
+                </motion.button> */
               )}
-              <div className="mt-8">
-              <a className="text-gray-400 text-sm underline" href="https://subscribe.concertswrapped.com">Get a text reminder when it releases.</a>
-              </div>
-              {/* <motion.div
+             
+              <motion.div
                 className="mt-8 text-gray-400"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
                 <p>{numWrapped} wrapped stories generated</p>
-              </motion.div> */}
+              </motion.div>
             </motion.div>
 
             <FooterSpacer />

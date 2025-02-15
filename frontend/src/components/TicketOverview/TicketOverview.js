@@ -66,8 +66,13 @@ const TicketOverview = () => {
     const startTime = Date.now();
 
     try {
+      // Determine userId based on environment
+      const userId = window.location.hostname === 'localhost' 
+        ? 'test|0001111'
+        : user.sub;
+
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/concerts/`, {
-        userId: user.sub,
+        userId: userId,
         tickets: filledTickets
       }, {
         headers: {
@@ -104,7 +109,7 @@ const TicketOverview = () => {
       localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
       
       setIsLoadingModalOpen(false);
-      navigate("/debug");
+      navigate("/wrapped");
     } catch (error) {
       console.error('API error:', error);
       setError({
