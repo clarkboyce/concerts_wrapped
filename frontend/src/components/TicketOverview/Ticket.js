@@ -2,6 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Ticket = ({ index, ticket, onDelete, onChange }) => {
+
+  const handleTicketPriceChange = (e) => {
+    const value = e.target.value === '' ? null : e.target.value;
+    onChange(index, 'ticket_price', value);
+  };
+
   return (
     <motion.div 
       className="relative w-full max-w-md"
@@ -77,7 +83,7 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
             <input
               type="number"
               value={ticket.ticket_price || ''}
-              onChange={(e) => onChange(index, 'ticket_price', e.target.value)}
+              onChange={handleTicketPriceChange}
               className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none"
               placeholder="Price (recommended)"
             />

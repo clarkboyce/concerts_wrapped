@@ -22,6 +22,7 @@ const Home = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/user-concerts/total-users`
         );
+        console.log("Fetched total users:", response.data);
         setNumWrapped(response.data.total_users);
       } catch (error) {
         setNumWrapped("0");

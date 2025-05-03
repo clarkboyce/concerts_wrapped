@@ -114,7 +114,16 @@ class ConcertDataServices {
 
 
   static calculateTopArtistData(concerts) {
+    console.log('Raw concerts data:', concerts); // Debug log
+    
+    // Validate input
+    if (!concerts || !Array.isArray(concerts) || concerts.length === 0) {
+      console.warn('Invalid or empty concerts array');
+      return null; // Or return a default value like "Unknown Artist"
+    }
+    
     const artistCounts = {};
+    
     concerts.forEach((concert) => {
       artistCounts[concert.artist] = (artistCounts[concert.artist] || 0) + 1;
     });

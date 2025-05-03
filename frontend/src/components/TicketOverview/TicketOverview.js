@@ -60,6 +60,12 @@ const TicketOverview = () => {
         ticket.city.trim() !== ""
     );
 
+    // Replace empty ticket prices with null
+    const ticketsWithNullPrice = filledTickets.map(ticket => ({
+      ...ticket,
+      ticket_price: ticket.ticket_price === '' ? null : ticket.ticket_price
+    }));
+
     setIsSubmitting(true);
     setError(null);
     setIsLoadingModalOpen(true);
@@ -67,34 +73,47 @@ const TicketOverview = () => {
 
     try {
       // Determine userId based on environment
-      const userId = window.location.hostname === 'localhost' 
-        ? 'test|0001111'
-        : user.sub;
+      // @shiv edit back for prod
+      // const userId = window.location.hostname === 'localhost' 
+      //   ? 'test|0001111'
+      //   : user.sub;
+      const userId = user?.sub || 'test|0001111';
+        console.log("userId", userId);
+        console.log("tickets", ticketsWithNullPrice);
 
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/concerts/`, {
         userId: userId,
-        tickets: filledTickets
+        tickets: ticketsWithNullPrice
       }, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
-
+      console.log("Raw concerts that match:", response.data);
 
       // Transform the data to only include matched and created tickets
       const processedData = response.data
         .filter(item => item.status === "Matched" || item.status === "Created")
-        .map(item => ({
-          artist: item.concert.artist,
-          capacity: item.concert.capacity,
-          city: item.concert.city,
-          date: item.concert.date,
-          genres: item.concert.genres,
-          number_of_songs: item.concert.number_of_songs,
-          state: item.concert.state,
-          venue: item.concert.venue,
-          price: item.ticket.ticket_price
-        }));
+        .map(item => {
+          if (!item.concert) {
+            console.warn('Missing concert data in item:', item);
+            return null;
+          }
+          return {
+            artist: item.concert.artist || '',
+            capacity: item.concert.capacity || 0,
+            city: item.concert.city || '',
+            date: item.concert.date || '',
+            genres: item.concert.genres || [],
+            number_of_songs: item.concert.number_of_songs || 0,
+            state: item.concert.state || '',
+            venue: item.concert.venue || '',
+            price: item.ticket?.ticket_price || 0
+          };
+        })
+        .filter(item => item !== null); // Remove any null entries
+
+      console.log("Processed concertData:", processedData);
 
       const elapsedTime = Date.now() - startTime;
       if (elapsedTime < 5000) {
