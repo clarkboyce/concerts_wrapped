@@ -18,10 +18,10 @@ function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
   const genreToArtists = useMemo(() => {
     const mapping = {};
     Object.entries(artistGenres).forEach(([artist, genres]) => {
-      // Handle both string and array cases
-      const genreArray = Array.isArray(genres) ? genres : [genres];
-      
-      // Add artist to each of their genres
+      const genreArray = Array.isArray(genres)
+        ? genres.flatMap(g => g.split(',').map(s => s.trim()))
+        : genres.split(',').map(s => s.trim());
+  
       genreArray.forEach(genre => {
         if (!mapping[genre]) {
           mapping[genre] = [];
@@ -31,6 +31,7 @@ function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
     });
     return mapping;
   }, [artistGenres]);
+  
 
   // Simply look up the artists for the top genre
   const topGenreArtists = genreToArtists[topGenre] || [];

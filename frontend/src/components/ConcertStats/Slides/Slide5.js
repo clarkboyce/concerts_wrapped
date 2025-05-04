@@ -72,7 +72,7 @@ function Slide5({
         </div>
         <div className="text-white text-3xl font-bold">@</div>
         <div className="text-white text-4xl font-bold">
-          {totalVenueCount} venues
+          {totalVenueCount} {totalVenueCount === 1 ? 'venue' : 'venues'}
 
         </div>
       </motion.div>
@@ -155,9 +155,11 @@ function Slide5({
 
                   {/* Content Container */}
                   <div className="flex flex-col flex-1">
-                    <div className="text-white text-sm mb-1 truncate max-w-[200px]">
-                      {concertAttendance[index].artist} - {venue}
-                    </div>
+                  <div className="text-white text-sm mb-1 max-w-[200px]">
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">{concertAttendance[index].artist}</div>
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis text-gray-300">{venue}</div>
+                  </div>
+
                     <div className="flex items-center gap-1">
 
                       <div className="flex-1 relative h-1">
