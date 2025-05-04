@@ -75,7 +75,7 @@ function Slide8({
           className="bg-blue-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🎤 Concerts</h2>
-          <p className="text-xl text-blue-600 text-center font-bold truncate overflow-hidden">{numConcerts}</p>
+          <p className="text-sm sm:text-base text-blue-600 text-center font-bold break-words">{numConcerts}</p>
         </motion.div>
 
         <motion.div 
@@ -85,7 +85,7 @@ function Slide8({
           className="bg-green-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">💸 Spending</h2>
-          <p className="text-xl text-green-600 text-center font-bold truncate overflow-hidden">${totalSpent}</p>
+          <p className="text-sm sm:text-base text-green-600 text-center font-bold break-words">${totalSpent}</p>
         </motion.div>
 
         <motion.div 
@@ -95,7 +95,7 @@ function Slide8({
           className="bg-pink-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🧑‍🎤 Top Artist</h2>
-          <p className="text-md text-pink-600 text-center font-bold truncate overflow-hidden">{topArtist}</p>
+          <p className="text-sm sm:text-base text-pink-600 text-center font-bold break-words">{topArtist}</p>
         </motion.div>
 
         <motion.div 
@@ -105,7 +105,7 @@ function Slide8({
           className="bg-yellow-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🗓️ Top Season</h2>
-          <p className="text-xl text-yellow-600 text-center font-bold truncate overflow-hidden">{topSeason}</p>
+          <p className="text-sm sm:text-base text-yellow-600 text-center font-bold break-words">{topSeason}</p>
         </motion.div>
 
         <motion.div 
@@ -115,7 +115,7 @@ function Slide8({
           className="bg-purple-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🎵 Top Genre</h2>
-          <p className="text-xl text-purple-600 text-center font-bold truncate overflow-hidden">{topGenre}</p>
+          <p className="text-sm sm:text-base text-purple-600 text-center font-bold break-words">{topGenre}</p>
         </motion.div>
 
         <motion.div 
@@ -125,7 +125,7 @@ function Slide8({
           className="bg-orange-800 px-3 bg-opacity-20 py-[2.5vh] rounded-lg"
         >
           <h2 className="text-lg font-semibold text-gray-300 mb-[1vh]">🏟️ Top Venue</h2>
-          <p className="text-md text-orange-600 text-center font-bold truncate overflow-hidden">{topVenue}</p>
+          <p className="text-sm sm:text-base text-orange-600 text-center font-bold break-words">{topVenue}</p>
         </motion.div>
       </div>
 
