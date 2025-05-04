@@ -63,7 +63,7 @@ const TicketOverview = () => {
     // Replace empty ticket prices with null
     const ticketsWithNullPrice = filledTickets.map(ticket => ({
       ...ticket,
-      ticket_price: ticket.ticket_price === '' ? null : ticket.ticket_price
+      ticket_price: ticket.ticket_price === '' ? null : parseFloat(ticket.ticket_price)
     }));
 
     setIsSubmitting(true);
@@ -113,22 +113,28 @@ const TicketOverview = () => {
         })
         .filter(item => item !== null); // Remove any null entries
 
-      console.log("Processed concertData:", processedData);
+      console.log("processedData b4 CDS:", processedData);
 
       const elapsedTime = Date.now() - startTime;
       if (elapsedTime < 5000) {
         await new Promise(resolve => setTimeout(resolve, 5000 - elapsedTime));
       }
 
+      console.log("shiv stored raw and processed data");
+      console.log("enrichedConcertData:", JSON.stringify(response.data));
       // Store both the raw and processed data
       localStorage.setItem("enrichedConcertData", JSON.stringify(response.data));
-      
+
+      console.log("shiv processing data RN");
       // Process the transformed data
       const processedStats = ConcertDataServices.processConcertData(processedData);
+      console.log("shiv DONE processing data");
       localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
+      console.log("shiv saved processedStats");
+      console.log("processedConcertStats:", JSON.stringify(processedStats));
       
       setIsLoadingModalOpen(false);
-      navigate("/wrapped");
+      navigate("/wrapped", { state: { concertData: processedStats } });
     } catch (error) {
       console.error('API error:', error);
       setError({

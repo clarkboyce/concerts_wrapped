@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 
 function Slide3({ topGenre = "", artistGenres = {}, genreCounts = {} }) {
   const [showSecondPart, setShowSecondPart] = useState(false);
-
+  
   useEffect(() => {
     // Start transition to second part after 4 seconds
     const timer = setTimeout(() => {

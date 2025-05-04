@@ -56,6 +56,7 @@ function ConcertStatsWrapped() {
   ];
 
   const handleStart = () => {
+    console.log("concertData:", concertData);
     incrementStoriesGenerated();
     setHasStarted(true);
     if (audioRef.current) {
@@ -131,17 +132,16 @@ function ConcertStatsWrapped() {
           />
         );
 
-      case 2:
+      case 2: 
         return (
           <SlideComponent
             topGenre={
-              Object.entries(concertData.genreCounts).sort(
-                ([, a], [, b]) => b - a
-              )[0][0]
+              Object.entries(concertData.genreCounts || {})
+                .sort(([, a], [, b]) => b - a)[0]?.[0] || ""
             }
             genreCounts={concertData.genreCounts}
             artistGenres={concertData.artistGenres}
-          />
+          />        
         );
 
       case 3:
