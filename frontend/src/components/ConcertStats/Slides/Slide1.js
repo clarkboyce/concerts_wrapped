@@ -34,7 +34,7 @@ function Slide1({
       >
         <div className="font-bold">
           <div className="text-4xl flex items-center justify-center gap-3 mb-3">
-            You spent
+            You spent ~ 
           </div>
           <div className="text-5xl text-sky-400 flex items-center justify-center gap-3 mb-3">
           <CountingNumber value={totalMinutes} duration={2} from={Math.round(totalMinutes * 0.8)} /> minutes

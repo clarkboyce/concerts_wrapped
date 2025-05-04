@@ -99,7 +99,7 @@ function Slide2({ totalSpent = 0, maxAvgPrice = 0, actualPrice = 0 }) {
             }}
             className="text-4xl font-bold"
           >
-            You spent <span className="bg-gradient-to-r from-green-400 to-green-600 text-transparent bg-clip-text">${totalSpent}</span>
+            You spent ~<span className="bg-gradient-to-r from-green-400 to-green-600 text-transparent bg-clip-text">${totalSpent}</span>
             <br />
             on tickets this year
           </motion.div>

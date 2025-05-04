@@ -31,7 +31,7 @@ function Slide8({
   };
 
   const handleShare = async () => {
-    const shareUrl = 'https://clarkboyce.github.io/concerts_wrapped/';
+    const shareUrl = process.env.REACT_APP_MAIN_DOMAIN_URL;
     const screenshot = await captureScreenshot();
 
     if (navigator.share && screenshot) {
