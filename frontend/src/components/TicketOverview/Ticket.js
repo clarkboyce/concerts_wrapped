@@ -1,8 +1,26 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { motion } from 'framer-motion';
 
-const Ticket = ({ index, ticket, onDelete, onChange }) => {
-  
+const Ticket = ({ index, ticket, onDelete, onChange, isSubmitted }) => {
+  const [touched, setTouched] = useState({
+    artist: false,
+    date: false,
+    city: false
+  });
+
+
+  const isEmpty = (value) => {
+    return value === null || value === undefined || value.trim() === '';
+  };
+
+  const isInvalid = (field) => {
+    return (touched[field] || isSubmitted) && isEmpty(ticket[field]);
+  };
+
+  const handleBlur = (field) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
   return (
     <motion.div 
       className="relative w-full max-w-md"
@@ -29,10 +47,18 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
               type="text"
               value={ticket.artist || ''}
               onChange={(e) => onChange(index, 'artist', e.target.value)}
-              className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none"
+              onBlur={() => handleBlur('artist')}
+              className={`bg-gray-800 text-white rounded-md p-2 border ${
+                isInvalid('artist') 
+                  ? 'border-red-500' 
+                  : 'border-gray-700 focus:border-blue-500'
+              } focus:outline-none`}
               placeholder="Artist name"
               required
             />
+            {isInvalid('artist') && (
+              <p className="text-red-400 text-xs">Artist name is required</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -43,7 +69,7 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
                 onChange={(e) => onChange(index, 'date', e.target.value)}
                 min="2024-01-01"
                 max="2024-12-31"
-                className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none appearance-none w-full [&:not(:valid)]:text-transparent"
+                // className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none appearance-none w-full [&:not(:valid)]:text-transparent"
                 style={{
                   colorScheme: 'dark',
                   WebkitAppearance: 'none',
@@ -53,13 +79,17 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
                   lineHeight: '1.5',
                   padding: '8px',
                 }}
+                onBlur={() => handleBlur('date')}
+                className={`bg-gray-800 text-white rounded-md p-2 border ${
+                  isInvalid('date') 
+                    ? 'border-red-500' 
+                    : 'border-gray-700 focus:border-blue-500'
+                } focus:outline-none`}
                 required
               />
-              {!ticket.date && (
-                <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                  Date
-                </span>
-              )}
+              {isInvalid('date') && (
+              <p className="text-red-400 text-xs">Date is required</p>
+            )}
             </div>
           </div>
 
@@ -68,10 +98,19 @@ const Ticket = ({ index, ticket, onDelete, onChange }) => {
               type="text"
               value={ticket.city || ''}
               onChange={(e) => onChange(index, 'city', e.target.value)}
-              className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none"
+              // className="bg-gray-800 text-white rounded-md p-2 border border-gray-700 focus:border-blue-500 focus:outline-none"
+              onBlur={() => handleBlur('city')}
+              className={`bg-gray-800 text-white rounded-md p-2 border ${
+                isInvalid('city') 
+                  ? 'border-red-500' 
+                  : 'border-gray-700 focus:border-blue-500'
+              } focus:outline-none`}
               placeholder="City"
               required
             />
+            {isInvalid('city') && (
+              <p className="text-red-400 text-xs">City is required</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">

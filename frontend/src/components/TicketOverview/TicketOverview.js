@@ -20,6 +20,7 @@ const TicketOverview = () => {
   const [error, setError] = useState(null);
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
 
   const handleAddTicket = () => {
@@ -41,24 +42,29 @@ const TicketOverview = () => {
     setTickets(newTickets);
   };
 
-  const isAnyTicketFilled = useMemo(() => {
-    return tickets.some(
+  const areAllTicketsFilled = useMemo(() => {
+    return tickets.every(
       (ticket) =>
         ticket.artist.trim() !== "" &&
         ticket.date !== "" &&
         ticket.city.trim() !== ""
     );
   }, [tickets]);
+  
 
   const handleSubmit = async () => {
-    if (!isAnyTicketFilled) return;
+    setIsSubmitted(true);
 
+    if (!areAllTicketsFilled) return;
+  
     const filledTickets = tickets.filter(
       (ticket) =>
         ticket.artist.trim() !== "" &&
         ticket.date !== "" &&
         ticket.city.trim() !== ""
     );
+  
+    if (filledTickets.length === 0) return;
 
     // Replace empty ticket prices with null
     const ticketsWithNullPrice = filledTickets.map(ticket => ({
@@ -159,7 +165,7 @@ const TicketOverview = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Give us a quick ticket overview!
+          Give us a quick concerts overview! 
         </motion.h1>
 
         <Scrollbars
@@ -184,6 +190,7 @@ const TicketOverview = () => {
                 ticket={ticket}
                 onDelete={handleDeleteTicket}
                 onChange={handleTicketChange}
+                isSubmitted={isSubmitted}
               />
             ))}
 
@@ -209,13 +216,13 @@ const TicketOverview = () => {
         <motion.button
           onClick={handleSubmit}
           className={`px-24 py-4 rounded-[20px] font-medium transition-colors ${
-            isAnyTicketFilled
+            areAllTicketsFilled
               ? "bg-[#73737330] text-white hover:bg-[#73737350]"
               : "bg-[#73737315] text-gray-500 cursor-not-allowed"
           }`}
-          whileHover={isAnyTicketFilled ? { scale: 1.05 } : {}}
-          whileTap={isAnyTicketFilled ? { scale: 0.95 } : {}}
-          disabled={!isAnyTicketFilled || isSubmitting}
+          whileHover={areAllTicketsFilled ? { scale: 1.05 } : {}}
+          whileTap={areAllTicketsFilled ? { scale: 0.95 } : {}}
+          disabled={!areAllTicketsFilled || isSubmitting}
         >
           {isSubmitting ? 'Processing...' : 'Generate Wrapped'}
         </motion.button>
