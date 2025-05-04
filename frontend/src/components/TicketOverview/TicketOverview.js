@@ -120,17 +120,17 @@ const TicketOverview = () => {
         await new Promise(resolve => setTimeout(resolve, 5000 - elapsedTime));
       }
 
-      console.log("shiv stored raw and processed data");
+      console.log("stored raw and processed data");
       console.log("enrichedConcertData:", JSON.stringify(response.data));
       // Store both the raw and processed data
       localStorage.setItem("enrichedConcertData", JSON.stringify(response.data));
 
-      console.log("shiv processing data RN");
+      console.log("processing data RN");
       // Process the transformed data
       const processedStats = ConcertDataServices.processConcertData(processedData);
-      console.log("shiv DONE processing data");
+      console.log("DONE processing data");
       localStorage.setItem("processedConcertStats", JSON.stringify(processedStats));
-      console.log("shiv saved processedStats");
+      console.log("saved processedStats");
       console.log("processedConcertStats:", JSON.stringify(processedStats));
       
       setIsLoadingModalOpen(false);
