@@ -7,7 +7,7 @@ import wrappy from "../common/wrappy.png";
 import ExampleTicket from "./ExampleTicket";
 import start_img from "./start_img.png";
 import BugReportModal from "./BugReportModal";
-import axios from "axios";
+import apiClient from '../api/client';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,9 +19,7 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/user-concerts/total-users`
-        );
+        const response = await apiClient.get('/api/user-concerts/total-users');
         console.log("Fetched total users:", response.data);
         setNumWrapped(response.data.total_users);
       } catch (error) {

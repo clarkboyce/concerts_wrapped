@@ -7,7 +7,7 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import ConcertDataServices from "../Services/ConcertDataServices";
 import LoadingModal from '../LoadingPage/LoadingModal';
 import ErrorModal from '../common/errorModal';
-import axios from 'axios';
+import apiClient from '../api/client';
 
 
 const TicketOverview = () => {
@@ -72,26 +72,17 @@ const TicketOverview = () => {
     const startTime = Date.now();
 
     try {
-      // Determine userId based on environment
-      // @shiv edit back for prod
-      // const userId = window.location.hostname === 'localhost' 
-      //   ? 'test|0001111'
-      //   : user.sub;
       const userId = user?.sub || 'test|0001111';
-        console.log("userId", userId);
-        console.log("tickets", ticketsWithNullPrice);
+      console.log("userId", userId);
+      console.log("tickets", ticketsWithNullPrice);
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/concerts/`, {
-        userId: userId,
+      const response = await apiClient.post('/api/concerts/', {
+        userId,
         tickets: ticketsWithNullPrice
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
       });
       console.log("Raw concerts that match:", response.data);
 
-      // Transform the data to only include matched and created tickets
+      // data = only matched/created tickets
       const processedData = response.data
         .filter(item => item.status === "Matched" || item.status === "Created")
         .map(item => {

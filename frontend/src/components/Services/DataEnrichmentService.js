@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-// Define the API base URL based on environment
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import apiClient from '../api/client';
 
 class DataEnrichmentService {
   /**
@@ -11,9 +9,9 @@ class DataEnrichmentService {
    */
   static async processTickets(tickets) {
     try {
-      console.log('Sending tickets to backend:', tickets);
-      const response = await axios.post(`${API_BASE_URL}/process-tickets`, { tickets });
-      console.log('Response from backend:', response.data);
+      console.log('sending tix to bend:', tickets);
+      const response = await apiClient.post('/process-tickets', { tickets });
+      console.log('res from bend:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error processing tickets:', error);
