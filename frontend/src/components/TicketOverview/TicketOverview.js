@@ -82,7 +82,7 @@ const TicketOverview = () => {
       console.log("userId", userId);
       console.log("tickets", ticketsWithNullPrice);
 
-      const response = await apiClient.post('/api/concerts/', {
+      const response = await apiClient.post('/api/concerts', {
         userId,
         tickets: ticketsWithNullPrice
       });
