@@ -10,6 +10,7 @@ class DataEnrichmentService {
   static async processTickets(tickets) {
     try {
       console.log('sending tix to bend:', tickets);
+      // @shiv route-dne
       const response = await apiClient.post('/process-tickets', { tickets });
       console.log('res from bend:', response.data);
       return response.data;
@@ -21,4 +22,5 @@ class DataEnrichmentService {
 }
 
 export default DataEnrichmentService;
+
 
