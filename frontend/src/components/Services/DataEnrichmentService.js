@@ -1,5 +1,6 @@
 import axios from 'axios';
-import apiClient from '../api/client';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 class DataEnrichmentService {
   /**
@@ -10,8 +11,8 @@ class DataEnrichmentService {
   static async processTickets(tickets) {
     try {
       console.log('sending tix to bend:', tickets);
-      // @shiv route-dne
-      const response = await apiClient.post('/process-tickets', { tickets });
+      // @shiv routedne
+      const response = await axios.post(`${API_BASE_URL}/process-tickets`, { tickets });
       console.log('res from bend:', response.data);
       return response.data;
     } catch (error) {

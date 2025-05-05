@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/data-api/:path*",
-      "destination": "https://concerts-backend-vkh2y6nrxa-uc.a.run.app/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

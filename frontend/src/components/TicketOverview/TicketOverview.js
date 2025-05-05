@@ -7,8 +7,7 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import ConcertDataServices from "../Services/ConcertDataServices";
 import LoadingModal from '../LoadingPage/LoadingModal';
 import ErrorModal from '../common/errorModal';
-import apiClient from '../api/client';
-
+import axios from 'axios';
 
 const TicketOverview = () => {
   const navigate = useNavigate();
@@ -81,10 +80,13 @@ const TicketOverview = () => {
       const userId = user?.sub || 'test|0001111';
       console.log("userId", userId);
       console.log("tickets", ticketsWithNullPrice);
-
-      const response = await apiClient.post('/api/concerts', {
-        userId,
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/concerts/`, {
+        userId: userId,
         tickets: ticketsWithNullPrice
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
       console.log("Raw concerts that match:", response.data);
 
