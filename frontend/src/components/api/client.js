@@ -1,14 +1,16 @@
 import axios from 'axios';
 
-const baseURL = process.env.NODE_ENV === 'production'
-  ? 'https://concerts-backend-vkh2y6nrxa-uc.a.run.app' || '/data-api'
-  : process.env.REACT_APP_BEND_API_URL;
-
 const apiClient = axios.create({
-  baseURL,
-  headers: {
+  baseURL: '/data-api/', // Always use proxy in browser
+  headers: { 
     'Content-Type': 'application/json',
-  },
+    'Accept': 'application/json'
+  }
 });
+
+// Only use direct connection for server-side or testing
+if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_USE_DIRECT) {
+  apiClient.defaults.baseURL = process.env.REACT_APP_BEND_API_URL;
+}
 
 export default apiClient;
